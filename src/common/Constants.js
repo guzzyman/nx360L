@@ -1,0 +1,644 @@
+import { createRef } from "react";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "../tailwind.config";
+
+export const resolvedTailwindConfig = resolveConfig(tailwindConfig);
+
+export const notistackRef = createRef();
+
+export const APP_SIDE_MENU_WIDTH = 270;
+export const DOCUMENT_PREVIEW_SIDE_MENU_WIDTH = 700;
+
+export const MediaQueryBreakpointEnum = {
+  "2xl": `(min-width: ${resolvedTailwindConfig.theme.screens["2xl"]})`,
+  lg: `(min-width: ${resolvedTailwindConfig.theme.screens.lg})`,
+  md: `(min-width: ${resolvedTailwindConfig.theme.screens.md})`,
+  sm: `(min-width: ${resolvedTailwindConfig.theme.screens.sm})`,
+  xl: `(min-width: ${resolvedTailwindConfig.theme.screens.xl})`,
+};
+
+export const DateFormatEnum = {
+  HYPHEN: "yyyy-MM-dd",
+  FORWARD_SLASH: "yyyy/MM/dd",
+};
+
+export const TABLE_PAGINATION_DEFAULT = {
+  offset: 0,
+  limit: 20,
+};
+
+export const RouteEnum = {
+  LOGIN: "/login",
+  LOGIN_VERIFICATION: "/login/verify",
+  DASHBOARD: "/",
+  SEQUEST_REQUEST: "/sequest/request",
+  SEQUEST_REQUEST_DETAILS: "/sequest/request/:id",
+  SEQUEST_REQUEST_HISTORY: "/sequest/request/history/:id",
+  SEQUEST_REQUEST_DISCOURSE: "/sequest/request/discourse/:id",
+  SEQUEST_REQUEST_FILES: "/sequest/request/files/:id",
+  SEQUEST_EXCEPTION: "sequest/exception",
+  SEQUEST_WORKFLOW: "sequest/workflow",
+  SEQUEST_EXCEPTION_DETAILS: "/sequest/exception/:id",
+  SEQUEST_EXCEPTION_HISTORY: "/sequest/exception/history/:id",
+  SEQUEST_EXCEPTION_DISCOURSE: "/sequest/exception/discourse/:id",
+  SEQUEST_EXCEPTION_FILES: "/sequest/exception/files/:id",
+  EDR: "/edr",
+  EDR_DETAILS: "/edr/:id",
+  EDR_CREATE: "/edr/create",
+  EDR_EDIT: "/edr/:id/edit",
+  EDR_UNPROCESSED: "/edr/unprocessed",
+  EDR_UNPROCESSED_DETAILS: "/edr/unprocessed/:id",
+  EDR_PARTIALLY_PROCESSED: "/edr/partially-processed",
+  EDR_PARTIALLY_PROCESSED_DETAILS: "/edr/partially-processed/:id",
+  EDR_PARTIALLY_PROCESSED_DETAILS_BREAKDOWN_DETAILS:
+    "/edr/partially-processed/:id/breakdown/:tid",
+  EDR_FULLY_PROCESSED: "/edr/fully-processed",
+  EDR_FULLY_PROCESSED_DETAILS: "/edr/fully-processed/:id",
+  EDR_FULLY_PROCESSED_DETAILS_BREAKDOWN_DETAILS:
+    "/edr/fully-processed/:id/breakdown/:tid",
+  EDR_APPROVAL: "/edr/approval",
+  EDR_OVERDUE_LOAN: "/edr/overdue-loan",
+  EDR_FUND_VENDORS: "/edr/fund-vendors",
+  INSIGHT: "/insight",
+
+  RECOVERY: "/recovery-management/recovery",
+  RECOVERY_DETAILS: "/recovery-management/recovery/:id",
+  RECOVERY_HISTORY: "/recovery-management/recovery/history/:id",
+  RECOVERY_DISCOURSE: "/recovery-management/recovery/discourse/:id",
+  RECOVERY_FILES: "/recovery-management/recovery/files/:id",
+
+  TELESALES: "/telesales-management/telesales",
+  TELESALES_DETAILS: "/telesales-management/telesales/:id",
+  TELESALES_HISTORY: "/telesales-management/telesales/history/:id",
+  TELESALES_DISCOURSE: "/telesales-management/telesales/discourse/:id",
+  TELESALES_FILES: "/telesales-management/telesales/files/:id",
+
+  TELESALES_HOT_LEADS: "/telesales-management/hotleads",
+  TELESALES_HOT_LEADS_DETAILS: "/telesales-management/hotleads/:id",
+  TELESALES_HOT_LEADS_HISTORY: "/telesales-management/hotleads/history/:id",
+  TELESALES_HOT_LEADS_DISCOURSE: "/telesales-management/hotleads/discourse/:id",
+  TELESALES_HOT_LEADS_FILES: "/telesales-management/hotleads/files/:id",
+
+  TELESALES_DROPOFF_LOANS: "/telesales-management/dropoffloans",
+  TELESALES_DROPOFF_LOANS_DETAILS: "/telesales-management/dropoffloans/:id",
+  TELESALES_DROPOFF_LOANS_HISTORY:
+    "/telesales-management/dropoffloans/history/:id",
+  TELESALES_DROPOFF_LOANS_DISCOURSE:
+    "/telesales-management/dropoffloans/discourse/:id",
+  TELESALES_DROPOFF_LOANS_FILES: "/telesales-management/dropoffloans/files/:id",
+
+  LOAN_UNDER_WRITING: "/loan-under-writing",
+  LOAN_UNDER_WRITING_PENDING: "/loan-under-writing/pending",
+  LOAN_UNDER_WRITING_TEAM_MANAGEMENT: "/loan-under-writing/team-management",
+  CRM: "/crm",
+  CRM_LEADS: "/crm/leads",
+  CRM_CLIENTS: "/crm/clients",
+  CRM_CLIENTS_DETAILS: "/crm/clients/:id",
+  CRM_CLIENTS_ADD: "/crm/clients/add",
+  CRM_CLIENTS_ADD_INSTANCE: "/crm/clients/add/:id",
+  CRM_CLIENTS_ADD_FROM_LEAD: "/crm/clients/add/:id/lead/:leadId",
+  CRM_CLIENTS_EDIT: "/crm/clients/edit",
+  CRM_CLIENTS_LOAN_ADD: "/crm/clients/:id/loan/add",
+  CRM_CLIENTS_LOAN_EDIT: "/crm/clients/:id/loan/edit/:loanId",
+  CRM_CLIENTS_LOAN_DETAILS: "/crm/clients/:id/loan/:loanId",
+  CRM_LEADS_DETAILS: "/crm/leads/:id",
+  CRM_LEADS_ADD: "/crm/leads/add",
+  CRM_LEADS_UPLOAD: "/crm/leads/upload",
+  CRM_LEADS_ADD_INSTANCE: "/crm/leads/add/:id",
+  CRM_LEADS_EDIT: "/crm/leads/edit",
+  CRM_LEADS_LOAN_ADD: "/crm/leads/:id/loan/add",
+  CRM_LEADS_LOAN_EDIT: "/crm/leads/:id/loan/edit/:loanId",
+  CRM_LEADS_LOAN_DETAILS: "/crm/leads/:id/loan/:loanId",
+  ACCOUNTING: "/accounting",
+  ACCOUNTING_JOURNAL_ENTRIES_ADD: "/accounting/journalentries/add",
+  ACCOUNTING_JOURNAL_ENTRIES_DETAILS: "/accounting/journalentries/:id",
+  ACCOUNTING_JOURNAL_ENTRIES_SEARCH: "/accounting/journalentries/search",
+  ADMINISTRATION: "/administration",
+  ADMINISTRATION_PRODUCTS: "/products",
+  ADMINISTRATION_PRODUCTS_LOANS: "/products/loans",
+  ADMINISTRATION_PRODUCTS_CHARGES: "/products/charges",
+  ADMINISTRATION_PRODUCTS_CHARGES_ADD: "/products/charges/add",
+  ADMINISTRATION_PRODUCTS_CHARGES_EDIT: "/products/charges/edit/:id",
+  ADMINISTRATION_PRODUCTS_CHARGES_DETAILS: "/products/charges/:id",
+  ADMINISTRATION_PRODUCTS_RATES: "/products/rates",
+  ADMINISTRATION_PRODUCTS_RATES_ADD: "/products/rates/add",
+  ADMINISTRATION_PRODUCTS_RATES_EDIT: "/products/rates/edit/:id",
+  ADMINISTRATION_PRODUCTS_RATES_DETAILS: "/products/rates/:id",
+  ADMINISTRATION_PRODUCTS_FLOATING_RATES: "/products/floatingrates",
+  ADMINISTRATION_PRODUCTS_FLOATING_RATES_ADD: "/products/floatingrates/add",
+  ADMINISTRATION_PRODUCTS_FLOATING_RATES_EDIT:
+    "/products/floatingrates/edit/:id",
+  ADMINISTRATION_PRODUCTS_FLOATING_RATES_DETAILS: "/products/floatingrates/:id",
+  ADMINISTRATION_PRODUCTS_TAX_COMPONENTS: "/products/taxcomponents",
+  ADMINISTRATION_PRODUCTS_TAX_COMPONENTS_ADD: "/products/taxcomponents/add",
+  ADMINISTRATION_PRODUCTS_TAX_COMPONENTS_EDIT:
+    "/products/taxcomponents/edit/:id",
+  ADMINISTRATION_PRODUCTS_TAX_COMPONENTS_DETAILS: "/products/taxcomponents/:id",
+  ADMINISTRATION_PRODUCTS_TAX_COMPONENT_GROUPS: "/products/taxconfigurations",
+  ADMINISTRATION_PRODUCTS_LOAN_DECIDER: "/products/loan-decider",
+  ADMINISTRATION_PRODUCTS_LOAN_DECIDER_DETAILS: "/products/loan-decider/:id",
+  ADMINISTRATION_PRODUCTS_TAX_GROUPS: "/products/taxgroups",
+  ADMINISTRATION_PRODUCTS_TAX_GROUPS_ADD: "/products/taxgroups/add",
+  ADMINISTRATION_PRODUCTS_TAX_GROUPS_EDIT: "/products/taxgroups/edit/:id",
+  ADMINISTRATION_PRODUCTS_TAX_GROUPS_DETAILS: "/products/taxgroups/:id",
+  ADMINISTRATION_LOAN_PRODUCT_ADD: "/products/loans/add",
+  ADMINISTRATION_LOAN_PRODUCT_EDIT: "/products/loans/edit/:id",
+  ADMINISTRATION_PRODUCTS_LOANS_DETAILS: "/products/loans/:id",
+  ADMINISTRATION_PRODUCTS_USSD_PREQUALIFICATION:
+    "/products/ussd-prequalification",
+  ADMINISTRATION_PRODUCTS_USSD_PREQUALIFICATION_HISTORY:
+    "/products/ussd-prequalification/:id",
+  FIXED_DEPOSIT_PRODUCT: "/products/fixed-deposits",
+  FIXED_DEPOSIT_PRODUCT_ADD: "/products/fixed-deposits/add",
+  FIXED_DEPOSIT_PRODUCT_EDIT: "/products/fixed-deposits/edit/:id",
+  FIXED_DEPOSIT_PRODUCT_DETAILS: "/products/fixed-deposits/:id",
+  CHARTOFACCOUNTS: "/accounting/chartofaccounts",
+  CHARTOFACCOUNTS_ADD: "/accounting/chartofaccounts/add",
+  CHARTOFACCOUNTS_ADD_SUBLEDGER:
+    "/accounting/chartofaccounts/add/subledger/:id",
+  CHARTOFACCOUNTS_EDIT: "/accounting/chartofaccounts/edit/:id",
+  CHARTOFACCOUNTS_DETAILS: "/accounting/chartofaccounts/:id",
+  CRM_EMPLOYER: "/crm/employer",
+  CRM_EMPLOYER_ADD: "/crm/employer/add",
+  CRM_EMPLOYER_ADD_BRANCH: "/crm/employer/add-branch/:parentId",
+  CRM_EMPLOYER_EDIT: "/crm/employer/add/:id",
+  CRM_EMPLOYER_DETAILS: "/crm/employer/:id",
+  CRM_CLIENT: "CRM_CLIENT",
+  CRM_LEAD: "CRM_LEAD",
+  CRM_LOAN: "CRM_LOAN",
+  CRM_WALLET: "CRM_WALLET",
+  CRM_TEMPLATE: "CRM_TEMPLATE",
+  CRM_NOTE: "CRM_NOTE",
+  CRM_LOAN_DOCUMENT: "CRM_LOAN_DOCUMENT",
+  CRM_CLIENT_SUMMARY: "CRM_CLIENT_SUMMARY",
+  USER: "/users",
+  USER_ADD: "/user/add",
+  USER_EDIT: "/user/edit/:id",
+  USER_DETAILS: "/user/:id",
+  STAFF: "/staff",
+  STAFF_EDIT: "/staff/edit/:id",
+  STAFF_DETAILS: "/staff/:id",
+  SYSTEM: "/system",
+  DOCUMENT_CONFIGURATIONS: "/system/document-configurations",
+  SURVEYS: "/system/surveys",
+  SURVEYS_ADD: "/system/surveys/add",
+  SURVEYS_EDIT: "/system/surveys/edit/:id",
+  SURVEYS_CLIENT: "/_/surveys/:surveyId/:userId/:clientId",
+  ROLES: "/system/roles",
+  ROLES_ADD: "/system/roles/add",
+  ROLES_PERMISSIONS_ADD: "/system/roles/permissions/:id",
+  ROLES_EDIT: "/system/roles/edit/:id",
+  DOCUMENT_CONFIGURATIONS_ADD: "/system/document-configurations/add",
+  DOCUMENT_CONFIGURATIONS_EDIT: "/system/document-configurations/edit/:id",
+  DOCUMENT_CONFIGURATIONS_SETTINGS:
+    "/system/document-configurations/settings/:id",
+  ADMINISTRATION_PRODUCTS_PRODUCT_MIX: "/products/product-mix",
+  ADMINISTRATION_PRODUCTS_PRODUCT_MIX_ADD: "/products/product-mix/add",
+  ADMINISTRATION_PRODUCTS_PRODUCT_MIX_EDIT:
+    "/products/product-mix/edit/:productId",
+  CLIENT_APPROVAL: "/loan-under-writing/client-approval",
+  CRM_CLIENT_FIXED_DEPOSIT_ADD: "/crm/clients/:id/fixed-deposit/add",
+  CRM_CLIENT_FIXED_DEPOSIT_EDIT:
+    "/crm/clients/:id/fixed-deposit/edit/:depositId",
+  ADMINISTRATION_ORGANISATION: "/administration/organizations",
+  ADMINISTRATION_ORGANISATION_EMPLOYEES:
+    "/administration/organizations/employees",
+  ADMINISTRATION_ORGANISATION_EMPLOYEES_ADD:
+    "/administration/organizations/employees/add",
+  ADMINISTRATION_ORGANISATION_EMPLOYEES_EDIT:
+    "/administration/organizations/employees/edit/:id",
+  REPORT: "/reports/:R_reportCategory",
+  REPORT_DETAILS: "/reports/:R_reportCategory/:R_reportListing/:id",
+  CRM_CLIENTS_FIXED_DEPOSIT_DETAILS:
+    "/crm/clients/:id/fixed-deposit/:fixedDepositId",
+  CRM_CLIENTS_WALLET_DETAILS: "/crm/clients/:id/wallet/:walletId",
+  RECURRING_DEPOSIT_PRODUCT: "/products/recurring-deposits",
+  RECURRING_DEPOSIT_PRODUCT_ADD: "/products/recurring-deposits/add",
+  RECURRING_DEPOSIT_PRODUCT_EDIT: "/products/recurring-deposits/edit/:id",
+  RECURRING_DEPOSIT_PRODUCT_DETAILS: "/products/recurring-deposits/:id",
+  CRM_CLIENTS_LOAN_AGREEMENT_FORM: "/_/:id/loan/:loanId/loan-agreement-form",
+  CREDIT_DIRECT_PAY: "/_/credit-direct-pay/:payRef",
+  RESCHEDULE_LOAN: "/recovery-management/reschedule-loan",
+  RESCHEDULE_LOAN_DETAIL: "/recovery-management/reschedule-loan/:id",
+  RECOVERY_MANAGEMENT: "/recovery-management",
+  CRM_CLIENT_REOCCURRING_FIXED_DEPOSIT_ADD:
+    "/crm/clients/:id/reoccurring-fixed-deposit/add",
+  CRM_CLIENT_REOCCURRING_FIXED_DEPOSIT_EDIT:
+    "/crm/clients/:id/reoccurring-fixed-deposit/edit/:depositId",
+  CRM_CLIENTS_REOCCURRING_FIXED_DEPOSIT_DETAILS:
+    "/crm/clients/:id/reoccurring-fixed-deposit/:fixedDepositId",
+  CRM_VENDOR: "/crm/vendor",
+  CRM_VENDOR_ADD: "/crm/vendor/add",
+  CRM_VENDOR_EDIT: "/crm/vendor/add/:id",
+  CRM_VENDOR_DETAILS: "/crm/vendor/:id",
+
+  CRM_LEADS_LOAN_DETAILS_PENDING_VALIDATION: "/crm/clients/:id/loan/:loanId/x",
+  BANK_SCHEDULE: "/bank-schedule",
+  BANK_SCHEDULE_DETAILS: "/bank-schedule/:id",
+
+  DISBURSEMENTS: "/disbursements",
+  DISBURSEMENTS_DETAILS: "/disbursements/:id",
+  REPAYMENTS: "/repayments",
+  MERCHANTS: "/merchants",
+  EXCEPTIONS: "/exceptions",
+};
+
+export const RtkqTagEnum = {
+  CRM_CLIENT: "CRM_CLIENT",
+  CRM_EMPLOYER: "CRM_EMPLOYER",
+  CRM_CLIENT_LOAN_EDR: "CRM_CLIENT_LOAN_EDR",
+  CRM_LEAD: "CRM_LEAD",
+  CRM_LOAN: "CRM_LOAN",
+  CRM_WALLET: "CRM_WALLET",
+  CRM_TEMPLATE: "CRM_TEMPLATE",
+  CRM_NOTE: "CRM_NOTE",
+  CRM_LOAN_DOCUMENT: "CRM_LOAN_DOCUMENT",
+  SEQUEST: "SEQUEST",
+  SEQUEST_EXCEPTION: "SEQUEST_EXCEPTION",
+  SEQUEST_WORKFLOW: "SEQUEST_WORKFLOW",
+  SEQUEST_DETAILS: "SEQUEST_DETAILS",
+  SEQUEST_HISTORY: "SEQUEST_HISTORY",
+  SEQUEST_DISCOURSE: "SEQUEST_DISCOURSE",
+  RECOVERY: "RECOVERY",
+  RECOVERY_DETAILS: "RECOVERY_DETAILS",
+  SEQUEST_FILES: "SEQUEST_FILES",
+  CRM_CLIENT_SUMMARY: "CRM_CLIENT_SUMMARY",
+  RATE_PRODUCT: "RATE_PRODUCT",
+  CHARGE_PRODUCT: "CHARGE_PRODUCT",
+  EDR_INFLOW: "EDR_INFLOW",
+  EDR_NOTE: "EDR_NOTE",
+  EDR_TRANSACTION: "EDR_TRANSACTION",
+  EDR_TRANSACTION_JOURNAL_ENTRY: "EDR_TRANSACTION_JOURNAL_ENTRY",
+  EDR_TRANSACTION_NOTE: "EDR_TRANSACTION_NOTE",
+  EDR_TRANSACTION_UNPROCESSED: "EDR_TRANSACTION_UNPROCESSED",
+  CHARTOFACCOUNTS_DELETE: "CHARTOFACCOUNTS_DELETE",
+  DOCUMENT_CONFIGURATION: "DOCUMENT_CONFIGURATION",
+  DOCUMENT_CONFIGURATION_SETTINGS: "DOCUMENT_CONFIGURATION_SETTINGS",
+  LOAN_PRODUCTS: "LOAN_PRODUCTS",
+  FIXED_DEPOSIT_PRODUCT: "FIXED_DEPOSIT_PRODUCT",
+  SURVEYS: "SURVEYS",
+  CLIENT_SURVEY: "CLIENT_SURVEY",
+  ADMINISTRATION_ORGANISATION_EMPLOYEES:
+    "ADMINISTRATION_ORGANISATION_EMPLOYEES",
+  FIXED_DEPOSIT: "FIXED_DEPOSIT",
+  STANDING_INSTRUCTIONS: "STANDING_INSTRUCTIONS",
+  EMPLOYER_PRODUCTS: "EMPLOYER_PRODUCTS",
+  CRM_TRACKING: "CRM_TRACKING",
+  CRM_ACTIVITIES: "CRM_ACTIVITIES",
+  CRM_CLIENT_CONFIGURATION: "CRM_CLIENT_CONFIGURATION",
+  LOAN_AGREEMENT_FORM: "LOAN_AGREEMENT_FORM",
+  CDL_PAY_DETAILS: "CDL_PAY_DETAILS",
+  RESCHEDULE_LOAN: "RESCHEDULE_LOAN",
+  EDR_OVERDUE_LOAN: "EDR_OVERDUE_LOAN",
+  ROLE: "ROLE",
+  CRM_VENDOR: "CRM_VENDOR",
+  CRM_VENDOR_ADDRESS: "CRM_VENDOR_ADDRESS",
+  CRM_VENDOR_BANK: "CRM_VENDOR_BANK",
+  CRM_VENDOR_SUMMARY: "CRM_VENDOR_SUMMARY",
+  CRM_VENDOR_ACCOUNT: "CRM_VENDOR_ACCOUNT",
+  CRM_VENDOR_LOAN: "CRM_VENDOR_LOAN",
+  BANK_SCHEDULE: "BANK_SCHEDULE",
+  CRM_OFFICES: "CRM_OFFICES",
+  USER_MANAGEMENT: "USER_MANAGEMENT",
+  STAFF: "STAFF",
+  UNDERWRITING: "UNDERWRITING",
+  LOAN_DECIDER: "LOAN_DECIDER",
+  EDR_REPORT: "EDR_REPORT",
+  DSR_CONFIG: "DSR_CONFIG",
+  USSD_PREQUALIFICATION: "USSD_PREQUALIFICATION",
+  RECONCILIATION_DISBURSEMENT: "RECONCILIATION_DISBURSEMENT",
+  LOAN_RECONCILIATION_DISBURSEMENT: "LOAN_RECONCILIATION_DISBURSEMENT",
+};
+
+export const dateLocaleFormat = {
+  LOCALE: "en",
+  DATE_FORMAT: "dd MMMM yyyy",
+};
+
+export const dateMonths = [
+  undefined,
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+export const DateConfig = {
+  LOCALE: "en",
+  FORMAT: "dd-MM-yyyy",
+  FORMAT_JOURNALENTRIES: "dd MMMM yyyy",
+  FORMAT_REPORTS: "yyyy-MM-dd",
+  HYPHEN_dd_MM_yyyy: "dd-MM-yyyy",
+  HYPHEN_MM_dd_yyyy: "MM-dd-yyyy",
+  SPACE_dd_MM_yyyy: "dd MM yyyy",
+};
+
+export const CurrencyEnum = {
+  USD: {
+    code: "USD",
+    symbol: "\u0024",
+  },
+  US: {
+    code: "USD",
+    symbol: "\u0024",
+  },
+  NGN: {
+    code: "NGN",
+    symbol: "\u20A6",
+  },
+  NG: {
+    code: "NGN",
+    symbol: "\u20A6",
+  },
+  GHS: {
+    code: "GHS",
+    symbol: "\u20B5",
+  },
+  GH: {
+    code: "GHS",
+    symbol: "\u20B5",
+  },
+  KES: {
+    code: "KES",
+    symbol: "KE",
+  },
+  KE: {
+    code: "KES",
+    symbol: "KE",
+  },
+  RWF: {
+    code: "RWF",
+    symbol: "RW",
+  },
+  RW: {
+    code: "RWF",
+    symbol: "RW",
+  },
+  TZS: {
+    code: "TZS",
+    symbol: "TZ",
+  },
+  TZ: {
+    code: "TZS",
+    symbol: "TZ",
+  },
+  UGX: {
+    code: "UGX",
+    symbol: "UG",
+  },
+  UG: {
+    code: "UGX",
+    symbol: "UG",
+  },
+  ZAR: {
+    code: "ZAR",
+    symbol: "ZA",
+  },
+  ZA: {
+    code: "ZAR",
+    symbol: "ZA",
+  },
+  ZMW: {
+    code: "ZMW",
+    symbol: "ZM",
+  },
+  ZM: {
+    code: "ZMW",
+    symbol: "ZM",
+  },
+};
+
+export const UIPermissionEnum = {
+  // CLIENTS
+  READ_CLIENT: "READ_CLIENT",
+  CREATE_CLIENT: "CREATE_CLIENT",
+  ACTIVATE_CLIENT: "ACTIVATE_CLIENT",
+  ASSIGNSTAFF_CLIENT: "ASSIGNSTAFF_CLIENT",
+  UPDATE_CLIENT: "UPDATE_CLIENT",
+  READ_ClientTrendsByWeek: "READ_ClientTrendsByWeek",
+  READ_ClientTrendsByDay: "READ_ClientTrendsByDay",
+  READ_ClientTrendsByMonth: "READ_ClientTrendsByMonth",
+  CREATE_EMAIL_CHECKER: "CREATE_EMAIL_CHECKER",
+  PAY_CLIENTCHARGE: "PAY_CLIENTCHARGE",
+  PAY_CLIENTCHARGE_CHECKER: "PAY_CLIENTCHARGE_CHECKER",
+
+  // LEADS
+  READ_LEAD: "READ_LEAD",
+  CREATE_LEAD: "CREATE_LEAD",
+  UPDATE_LEAD: "UPDATE_LEAD",
+  ACTIVATE_LEAD: "ACTIVATE_LEAD",
+
+  // EMPLOYERS
+  READ_EMPLOYER: "READ_EMPLOYER",
+
+  // VENDOR
+  READ_Vendor: "READ_Vendor",
+  READ_VENDOR: "READ_VENDOR",
+  CREATE_ADHOC: "CREATE_ADHOC",
+  CREATE_ACCOUNTNUMBERFORMAT: "CREATE_ACCOUNTNUMBERFORMAT",
+  CREATE_ACCOUNTTRANSFER: "CREATE_ACCOUNTTRANSFER",
+  CREATE_ACCOUNTTRANSFER_CHECKER: "CREATE_ACCOUNTTRANSFER_CHECKER",
+  CREATE_ACCOUNTINGRULE: "CREATE_ACCOUNTINGRULE",
+
+  // SEQUEST
+  READ_JOURNALENTRY: "READ_JOURNALENTRY",
+  CREATE_JOURNALENTRY: "CREATE_JOURNALENTRY",
+  CREATE_JOURNALENTRY_CHECKER: "CREATE_JOURNALENTRY_CHECKER",
+  CREATESCHEDULEEXCEPTIONS_LOAN: "CREATESCHEDULEEXCEPTIONS_LOAN",
+  CREATESCHEDULEEXCEPTIONS_LOAN_CHECKER:
+    "CREATESCHEDULEEXCEPTIONS_LOAN_CHECKER",
+  CREATE_SAVINGSACCOUNT: "CREATE_SAVINGSACCOUNT",
+  CREATE_SAVINGSACCOUNTCHARGE: "CREATE_SAVINGSACCOUNTCHARGE",
+  CREATE_SHAREACCOUNT: "CREATE_SHAREACCOUNT",
+  CREATE_SHAREPRODUCT: "CREATE_SHAREPRODUCT",
+
+  // INTERACTIONS
+  READ_INTERREQUEST: "READ_INTERREQUEST",
+  CREATE_INTERREQUEST: "CREATE_INTERREQUEST",
+
+  // REPORT
+  READ_COLLECTION_REPORT: "READ_Collection Report",
+  READ_REPORT: "READ_REPORT",
+  READ_REPORTMAILINGJOB: "READ_REPORTMAILINGJOB",
+  REPORTING_SUPER_USER: "REPORTING_SUPER_USER",
+  CREATE_CREDITREPORT: "CREATE_CREDITREPORT",
+  UPDATE_CREDITREPORT: "UPDATE_CREDITREPORT",
+  READ_Disbursal_Report: "READ_Disbursal Report",
+
+  // LOAN
+  READ_LOAN: "READ_LOAN",
+  CREATE_LOAN: "CREATE_LOAN",
+  READ_EMAIL_CAMPAIGN: "READ_EMAIL_CAMPAIGN",
+  SALES_APPROVALUNDO_LOAN: "SALES_APPROVALUNDO_LOAN",
+  DISBURSETOSAVINGS_LOAN: "DISBURSETOSAVINGS_LOAN",
+  ADJUST_LOAN: "ADJUST_LOAN",
+  WAIVEINTERESTPORTION_LOAN: "WAIVEINTERESTPORTION_LOAN",
+  CREATE_RESCHEDULELOAN: "CREATE_RESCHEDULELOAN",
+  WRITEOFF_LOAN: "WRITEOFF_LOAN",
+  CLOSE_LOAN: "CLOSE_LOAN",
+  UPDATELOANOFFICER_LOAN: "UPDATELOANOFFICER_LOAN",
+  DRAFT_LOAN: "DRAFT_LOAN",
+  UPDATE_LOANCHARGE: "UPDATE_LOANCHARGE",
+  APPROVE_LOAN: "APPROVE_LOAN",
+  REJECT_LOAN: "REJECT_LOAN",
+  WITHDRAW_LOAN: "WITHDRAW_LOAN",
+  SALES_APPROVE_LOAN_CHECKER: "SALES_APPROVE_LOAN_CHECKER",
+  SALES_APPROVE_LOAN: "SALES_APPROVE_LOAN",
+  DISBURSE_LOAN_CHECKER: "DISBURSE_LOAN_CHECKER",
+  SALES_APPROVALUNDO_LOAN_CHECKER: "SALES_APPROVALUNDO_LOAN_CHECKER",
+  DISBURSE_LOAN: "DISBURSE_LOAN",
+  APPROVE_LOAN_CHECKER: "APPROVE_LOAN_CHECKER",
+  APPROVALUNDO_LOAN_CHECKER: "APPROVALUNDO_LOAN_CHECKER",
+  APPROVE_SAVINGSACCOUNT_CHECKER: "APPROVE_SAVINGSACCOUNT_CHECKER",
+  READ_LOANS_PENDING_APPROVAL: "READ_Loans Pending Approval",
+  UPDATE_LOAN_CHECKER: "UPDATE_LOAN_CHECKER",
+  ADJUST_LOAN_CHECKER: "ADJUST_LOAN_CHECKER",
+  TRANSFERCLIENTS_GROUP: "TRANSFERCLIENTS_GROUP",
+  TRANSFERCLIENTS_GROUP_CHECKER: "TRANSFERCLIENTS_GROUP_CHECKER",
+
+  ACTIVE_DROPDOWN: "ACTIVE_DROPDOWN",
+  APPROVED_DROPDOWN: "APPROVED_DROPDOWN",
+  CLOSED_OBLIGATIONS_MET_DROPDOWN: "CLOSED_OBLIGATIONS_MET_DROPDOWN",
+  CLOSED_RESCHEDULE_OUTSTANDING_AMOUNT_DROPDOWN:
+    "CLOSED_RESCHEDULE_OUTSTANDING_AMOUNT_DROPDOWN",
+  CLOSED_WRITTEN_OFF_DROPDOWN: "CLOSED_WRITTEN_OFF_DROPDOWN",
+  DRAFT_DROPDOWN: "DRAFT_DROPDOWN",
+  OVERPAID_DROPDOWN: "OVERPAID_DROPDOWN",
+  REJECTED_DROPDOWN: "REJECTED_DROPDOWN",
+  SALES_SUBMITTED_AND_PENDING_APPROVAL_DROPDOWN:
+    "SALES_SUBMITTED_AND_PENDING_APPROVAL_DROPDOWN",
+  SUBMITTED_AND_PENDING_APPROVAL_DROPDOWN:
+    "SUBMITTED_AND_PENDING_APPROVAL_DROPDOWN",
+  TRANSFER_IN_PROGRESS_DROPDOWN: "TRANSFER_IN_PROGRESS_DROPDOWN",
+  TRANSFER_ON_HOLD_DROPDOWN: "TRANSFER_ON_HOLD_DROPDOWN",
+  WITHDRAWN_BY_CLIENT_DROPDOWN: "WITHDRAWN_BY_CLIENT_DROPDOWN",
+
+  // SURVEY
+  REGISTER_SURVEY: "REGISTER_SURVEY",
+
+  // FIXED DEPOSIT
+  READ_FIXEDDEPOSITACCOUNT: "READ_FIXEDDEPOSITACCOUNT",
+
+  // RECURRING FIXED DEPOSIT
+  READ_RECURRINGDEPOSITACCOUNT: "READ_RECURRINGDEPOSITACCOUNT",
+  PREMATURECLOSE_RECURRINGDEPOSITACCOUNT:
+    "PREMATURECLOSE_RECURRINGDEPOSITACCOUNT",
+  CALCULATEINTEREST_RECURRINGDEPOSITACCOUNT:
+    "CALCULATEINTEREST_RECURRINGDEPOSITACCOUNT",
+  POSTINTEREST_RECURRINGDEPOSITACCOUNT: "POSTINTEREST_RECURRINGDEPOSIT ACCOUNT",
+  WITHDRAWAL_RECURRINGDEPOSITACCOUNT: "WITHDRAWAL_RECURRINGDEPOSITACCOUNT",
+  DEPOSIT_RECURRINGDEPOSITACCOUNT: "DEPOSIT_RECURRINGDEPOSITACCOUNT",
+
+  // SAVINGS
+  READ_SAVINGSACCOUNT: "READ_SAVINGSACCOUNT",
+  UPDATE_SAVINGSACCOUNTCHARGE: "UPDATE_SAVINGSACCOUNTCHARGE",
+  UPDATEWITHHOLDTAX_SAVINGSACCOUNT: "UPDATEWITHHOLDTAX_SAVINGSACCOUNT",
+  READ_ProgramDetails: "READ_ProgramDetails",
+  READ_TxnRunningBalances: "READ_TxnRunningBalances",
+
+  // RECOVERY
+  READ_RESCHEDULELOAN: "READ_RESCHEDULELOAN",
+  READ_COLLECTIONSHEET: "READ_COLLECTIONSHEET",
+  RECOVERYPAYMENT_LOAN: "RECOVERYPAYMENT_LOAN",
+  READ_RESCHEDULED_LOANS: "READ_Rescheduled Loans",
+  APPROVE_RESCHEDULELOAN: "APPROVE_RESCHEDULELOAN",
+  ASSIGNSTAFF_GROUP: "ASSIGNSTAFF_GROUP",
+  ASSIGNROLE_GROUP: "ASSIGNROLE_GROUP",
+
+  // ADMINISTRATION
+  READ_CDL_CONFIGURATION: "READ_CDL_CONFIGURATION",
+  CREATE_BANKACCOUNTTYPE: "CREATE_BANKACCOUNTTYPE",
+  CREATE_BANKCLASSIFICATION: "CREATE_BANKCLASSIFICATION",
+  CREATE_CENTER: "CREATE_CENTER",
+  CREATE_CHARTSLAB: "CREATE_CHARTSLAB",
+  CREATE_CHARTSLAB_CHECKER: "CREATE_CHARTSLAB_CHECKER",
+  CREATE_TEMPLATE: "CREATE_TEMPLATE",
+  CREATE_CENTER_CHECKER: "CREATE_CENTER_CHECKER",
+
+  // USER
+  UPDATE_USER: "UPDATE_USER",
+  DELETE_USER: "DELETE_USER",
+  READ_USER: "READ_USER",
+  CREATE_USER: "CREATE_USER",
+  CREATE_USER_CHECKER: "CREATE_USER_CHECKER",
+
+  // PRODUCT
+  UPDATE_FIXEDDEPOSITACCOUNT: "UPDATE_FIXEDDEPOSITACCOUNT",
+  UPDATE_FIXEDDEPOSITACCOUNT_CHECKER: "UPDATE_FIXEDDEPOSITACCOUNT_CHECKER",
+  UPDATE_FIXEDDEPOSITPRODUCT: "UPDATE_FIXEDDEPOSITPRODUCT",
+  UPDATE_FIXEDDEPOSITPRODUCT_CHECKER: "UPDATE_FIXEDDEPOSITPRODUCT_CHECKER",
+  UPDATE_PRODUCTMIX: "UPDATE_PRODUCTMIX",
+  CREATE_SAVINGSPRODUCT_CHECKER: "CREATE_SAVINGSPRODUCT_CHECKER",
+  UPDATE_LOANPRODUCT: "UPDATE_LOANPRODUCT",
+  UPDATE_LOANPRODUCT_CHECKER: "UPDATE_LOANPRODUCT_CHECKER",
+  CREATE_SAVINGSPRODUCT: "CREATE_SAVINGSPRODUCT",
+  UPDATE_SAVINGSPRODUCT: "UPDATE_SAVINGSPRODUCT",
+  CREATE_DIVIDEND_SHAREPRODUCT: "CREATE_DIVIDEND_SHAREPRODUCT",
+  CREATE_DIVIDEND_SHAREPRODUCT_CHECKER: "CREATE_DIVIDEND_SHAREPRODUCT_CHECKER",
+
+  // EDR
+  READ_OFFICETRANSACTION: "READ_OFFICETRANSACTION",
+  CREATE_FCMB: "CREATE_FCMB",
+  READ_EDRNOTE: "READ_EDRNOTE",
+  CREATE_EDR: "CREATE_EDR",
+  CREATE_EDRNOTE: "CREATE_EDRNOTE",
+  SETTLECASHFROMCASHIER_TELLER: "SETTLECASHFROMCASHIER_TELLER",
+  ALLOCATECASHTOCASHIER_TELLER: "ALLOCATECASHTOCASHIER_TELLER",
+  ALLOCATECASHIER_TELLER: "ALLOCATECASHIER_TELLER",
+  READ_Branch_Expected_Cash_Flow: "READ_Branch Expected Cash Flow",
+  PROCESS_EDR: "PROCESS_EDR",
+  PROCESS_REPAYMENT_EDR: "PROCESS_REPAYMENT_EDR",
+
+  // TELESALES
+  READ_TELESALES: "READ_TELESALES",
+  CREATE_PRODUCTMIX: "CREATE_PRODUCTMIX",
+  UPDATE_LOANNOTE: "UPDATE_LOANNOTE",
+  UPDATE_LOANNOTE_CHECKER: "UPDATE_LOANNOTE_CHECKER",
+  UPDATE_TELESALES: "UPDATE_TELESALES",
+  ASSIGNOFFICER_TELESALES: "ASSIGNOFFICER_TELESALES",
+  READ_Active_Loans_Summary: "READ_Active Loans - Summary",
+
+  // HOT LEADS
+  READ_SCHEDULER: "READ_SCHEDULER",
+  READ_SMS: "READ_SMS",
+  READ_SMSCAMPAIGN: "READ_SMSCAMPAIGN",
+  CREATE_CLIENTIDENTIFIER: "CREATE_CLIENTIDENTIFIER",
+  CREATE_CLIENTIDENTIFIER_CHECKER: "CREATE_CLIENTIDENTIFIER_CHECKER",
+  CREATE_CLIENTIMAGE: "CREATE_CLIENTIMAGE",
+
+  // DROP OFF
+  READ_Active_Loans_Details: "READ_Active Loans - Details",
+  READ_Active_Loan_Clients_Email: "READ_Active Loan Clients - Email",
+  READ_Active_Loan_Summary_per_Branch: "READ_Active Loan Summary per Branch",
+
+  // UNDERWRITER
+  APPROVE_DIVIDEND_SHAREPRODUCT: "APPROVE_DIVIDEND_SHAREPRODUCT",
+  APPROVE_DIVIDEND_SHAREPRODUCT_CHECKER:
+    "APPROVE_DIVIDEND_SHAREPRODUCT_CHECKER",
+  APPROVEADDITIONALSHARES_SHAREACCOUNT: "APPROVEADDITIONALSHARES_SHAREACCOUNT",
+};
+
+export const DOCUMENT_TYPE = {
+  PDF: "pdf",
+  IMAGE: "image",
+};
+
+export const CUSTOMER_TYPE_NAME_ENUM = {
+  1: "clients",
+  2: "employer",
+  39: "vendor",
+};
+
+export const CUSTOMER_TYPE_TO_ENUM = {
+  1: RouteEnum.CRM_CLIENTS,
+  2: RouteEnum.CRM_EMPLOYER,
+  39: RouteEnum.CRM_VENDOR,
+};

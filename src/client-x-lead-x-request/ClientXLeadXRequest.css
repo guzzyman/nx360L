@@ -1,0 +1,18 @@
+.ClientXLeadXRequest {
+}
+
+.ClientXLeadXRequest
+  .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0px 0px;
+}
+
+.ClientXLeadXRequest .ck.ck-editor__editable_inline {
+  /* padding: 0; */
+}
+
+.ClientXLeadXRequest .ck.ck-editor__editable {
+  max-height: 250px;
+  min-height: 150px;
+}

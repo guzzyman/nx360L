@@ -1,0 +1,6 @@
+export const LoanProductAccountingRuleEnum = {
+  NONE: "NONE",
+  CASH_BASED: "CASH BASED",
+  ACCRUAL_PERIODIC: "ACCRUAL PERIODIC",
+  ACCRUAL_UPFRONT: "ACCRUAL UPFRONT",
+};

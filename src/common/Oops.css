@@ -1,0 +1,12 @@
+.Oops {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* gap: 4; */
+}
+
+.Oops__icon {
+  @apply text-secondary-dark;
+  font-size: 100px;
+}

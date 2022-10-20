@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        font-family: sans-serif
+    }
+    .mt-10 {
+    margin-top: 2.5rem/* 40px */;
+}
+.px-10 {
+    padding-left: 2.5rem/* 40px */;
+    padding-right: 2.5rem/* 40px */;
+}
+.w-full {
+    width: 100%;
+}
+.h-full {
+    height: 100%;
+}
+.flex {
+    display: flex;
+}
+.flex-col {
+    flex-direction: column;
+}
+.mb-7 {
+    margin-bottom: 1.75rem/* 28px */;
+}
+.mb-2 {
+    margin-bottom: 0.5rem/* 8px */;
+}
+.mt-5 {
+    margin-top: 1.25rem/* 20px */;
+}
+.bg-primary-main {
+    background-color: var(--color-primary-main);
+}
+.font-bold {
+    font-weight: 700;
+}
+.text-lg {
+    font-size: 1.125rem/* 18px */;
+    line-height: 1.75rem/* 28px */;
+}
+.text-white {
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+.text-xl {
+    font-size: 1.25rem/* 20px */;
+    line-height: 1.75rem/* 28px */;
+}
+.text-base {
+    font-size: 1rem/* 16px */;
+    line-height: 1.5rem/* 24px */;
+}
+.col-span-2 {
+    grid-column: span 2 / span 2;
+}
+.capitalize {
+    text-transform: capitalize;
+}
+.font-semibold {
+    font-weight: 600;
+}
+.list-disc {
+    list-style-type: disc;
+}
+.list-disc {
+    list-style-type: disc;
+}
+.grid {
+    display: grid;
+}
+.grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.gap-2 {
+    gap: 0.5rem/* 8px */;
+}
+</style>
+<body>
+    <div className="mt-10">
+        <Paper className="py-5 px-10 w-full" id="capture">
+          <div>
+            <div className="flex items-center flex-col mb-7">
+              <img
+                src={NimbleX360Png}
+                alt="NimbleX360"
+                style={{ maxWidth: "150px" }}
+                className="w-full  h-full mb-2"
+              />
+
+              <h2 className="font-bold text-lg">RC 657309</h2>
+            </div>
+            <div className="bg-primary-main p-4">
+              <h3 className="font-extrabold text-center text-white text-xl">
+                PROVISIONAL OFFER LETTER
+              </h3>
+            </div>
+          </div>
+
+           <!-- loan header start  -->
+          <div className="mt-5 mb-8">
+            {loanHeader.map((item, i) => (
+              <div key={i} className="grid grid-cols-5 mb-2">
+                <h5 className="font-bold text-base ">{item?.name}</h5>
+                <h5 className="font-bold col-span-4 text-base uppercase">
+                  {item?.value}
+                </h5>
+              </div>
+            ))}
+          </div>
+          <!-- {/* loan header End */} -->
+
+          <h5 className="font-bold text-base capitalize">
+            Dear {customerFullName},
+          </h5>
+
+          <div>
+            <h5 className="font-bold text-lg mt-5 mb-3 text-center">
+              OFFER OF CREDIT FACILITY
+            </h5>
+
+            <!-- {/* loan Leander details Start */} -->
+            <div className="mt-5 mb-10 font-semibold">
+              {leanLenderDetails.map((item, i) => (
+                <div key={i} className="grid grid-cols-3 mb-2">
+                  <h5 className="font-bold text-base">{item?.name}</h5>
+                  <h5 className="col-span-2 text-base">{item?.value}</h5>
+                </div>
+              ))}
+            </div>
+            <!-- {/* loan Leander details End */} -->
+          </div>
+
+          <hr></hr>
+
+          <div className="my-10 font-semibold">
+            <h5 className="font-bold text-lg">
+              LOAN AGREEMENT FOR {loanProduct}
+            </h5>
+            <p className="mt-3 text-base">
+              This Loan Agreement is entered the ....... day of
+              ................... 20....... between CREDIT DIRECT LIMITED, a
+              financial services company incorporated in Nigeria with its
+              registered office at 48/50, Isaac John Street, GRA, lkeja, Lagos
+              (“CDL”) and
+              ............................................................................................
+              of
+              ........................................................................................
+              (“the Borrower”).
+            </p>
+          </div>
+
+          <div className="my-10 font-semibold">
+            <h5 className="font-bold text-lg">
+              DESCRIPTION <br></br>
+              {loanDescription}
+            </h5>
+            <p className="mt-3 text-base">
+              The device financing loan facility is a short-term loan product
+              that provides Borrowers with the opportunity to obtain credit
+              facilities to enable them acquire assets (including but not
+              limited to electronic appliances, devices and gadgets) from
+              participating physical and online stores (“Vendors”).
+            </p>
+          </div>
+
+          <div className="my-10 font-semibold">
+            <h5 className="font-bold text-lg">TERMS OF THE LOAN</h5>
+            <p className="mt-3 text-base">
+              The Borrower has applied for and CDL has agreed to lend the
+              Borrower a loan facility in the sum of ₦
+              {formatNumberToCurrency(loanAmount)}, The loan amount shall be
+              disbursed directly into {vendorsBankAccount} in line with the
+              Borrower’s application.
+            </p>
+
+            <ul class="list-disc list-inside mt-5 text-base">
+              <li>
+                Tenor: {loanTenure} commencing from {vendorCommencingFromTo}{" "}
+                or until the loan is fully repaid.
+              </li>
+
+              <li>
+                Interest: Interest rate is {loanInterestRate} and computed on
+                a {loanInterestBasis}. The monthly interest shall start to
+                accumulate on the loan amount from the date following the date
+                of loan disbursement. Where the Borrower fails to pay any
+                amount owed to CDL on a due date, default interest shall be
+                charged on the unpaid amount at the same rate as above or such
+                higher rate to be advised.
+              </li>
+              <li>
+                Monthly repayment sum: ₦
+                {formatNumberToCurrency(monthlyRepaymentSum)}
+              </li>
+              <li>Repayment method: {repaymentMethod}.</li>
+            </ul>
+
+            <p className="mt-5 text-base ">
+              CDL may vary its rates and these terms and conditions at any
+              time if required or advisable to do so by law; if there is a
+              change in market conditions or to maintain the rate of return on
+              this facility. Any variation to these terms and conditions shall
+              be communicated to the Borrower and shall be binding on the
+              Borrower from the date specified in such notice.
+            </p>
+          </div>
+
+          <div className="my-10 font-semibold">
+            <h5 className="font-bold text-lg">REPAYMENT SCHEDULE</h5>
+
+            <div className="mt-5">
+              <CRMClientLoanAgrrementFormRepaymentReschedule data={data} />
+            </div>
+            
+            <div className="mt-5">
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  "This offer is subject to a satisfactory credit report and further verification checks. If your application is unsuccessful, an update will be sent to your email.",
+                  "Please note upfront charges may be deducted from the loan amount depending on the product type.",
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className="mt-3 p-3 rounded-lg  text-gray-900 text-base bg-gray-100"
+                  >
+                    <div className="flex gap-1">
+                      <svg
+                        class="inline flex-shrink-0 mr-3 w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                      <div>{item}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="my-10 font-semibold">
+            <h5 className="font-bold text-lg">MEMORANDUM OF ACCEPTANCE</h5>
+            <p className="mt-3 text-base">
+              I {customerFullName}, hereby accept the terms and conditions
+              contained in this schedule.
+            </p>
+          </div>
+
+          <div className="my-10 font-semibold">
+            <h5 className="font-bold text-lg">BORROWER’S UNDERTAKINGS</h5>
+            <p className="mt-3 text-base">
+              The Borrower understands and agrees that:
+            </p>
+            <ul class="list-disc list-inside mt-5 text-base">
+              {underTaking.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
+            </ul>
+            <p className="mt-3 text-base">
+              These terms and conditions shall remain in force provided CDL
+              remains a creditor of the Borrower or any part of the loan
+              remains outstanding.
+            </p>
+          </div>
+
+          <div className="my-10 font-semibold">
+            <h5 className="font-bold text-lg">BORROWER’S KYC DETAILS</h5>
+            <p className="mt-3 text-base">
+              <div className="mt-5 mb-10 grid grid-cols-2 font-semibold">
+                {borrowersKYCDetails.map((item, i) => (
+                  <div key={i} className="grid grid-cols-3 mb-2">
+                    <h5 className="font-bold text-base">{item?.name}</h5>
+                    <h5 className="col-span-2 text-base">{item?.value}</h5>
+                  </div>
+                ))}
+              </div>
+            </p>
+          </div>
+
+          <div className="my-10 font-semibold">
+            <h5 className="font-bold text-lg">DISCLAIMER:</h5>
+            <p className="mt-3 text-base">
+              As required by law, Credit Direct Limited is mandated to
+              disclose the status of defaulting loans to relevant local and/or
+              international credit bureaus, credit monitoring agencies and
+              regulatory bodies.
+            </p>
+
+            <p className="mt-5 text-base">
+              Thank you.<br></br>
+              Yours faithfully:<br></br>
+              For Credit Direct Limited
+            </p>
+          </div>
+
+          <div className="flex justify-around">
+            <div>
+              <h5 className="font-bold text-lg">Head, Customer Engagement</h5>
+            </div>
+            <div>
+              <h5 className="font-bold text-lg">Head, Risk Management</h5>
+            </div>
+          </div>
+
+          <div className="my-10 font-semibold">
+            <h5 className="font-bold text-lg">BORROWER’S ATTESTATION</h5>
+            <p className="mt-3 text-base">
+              I {customerFullName}, hereby accept the terms and conditions
+              contained in this schedule.
+            </p>
+          </div>
+
+          <div className="my-10 font-semibold">
+            <h5 className="font-bold text-lg">BORROWER’S UNDERTAKINGS</h5>
+            <p className="mt-3 text-base">
+              The Borrower understands and agrees that this Loan Agreement is
+              executed and delivered electronically and that no separate hard
+              copy will be provided. Accordingly, this agreement shall be
+              effective for all purposes and shall have the same legal effect,
+              validity and enforceability as a manually executed agreement.
+            </p>
+            <p className="mt-3 text-base">
+              I, {customerFullName} hereby acknowledges that they have read
+              and understood all the terms and conditions as contained herein
+              and agree to be bound by them. The Terms and Conditions as
+              available on CDL’s website shall be incorporated hereto and
+              shall be construed and read as forming part of this Loan
+              Agreement.
+            </p>
+          </div>
+
+          <div className="my-10 font-semibold">
+            <p className="mt-3 text-base">
+              Name
+              <span className="underline-offset-1 min-w-10 capitalize">
+                {customerFullName}
+              </span>
+              Signature & Date
+              <span className="underline-offset-1 min-w-10">
+                _______________________
+              </span>
+            </p>
+          </div>
+        </Paper>
+      </div>
+</body>
+</html>

@@ -1,0 +1,234 @@
+---
+# Source: fineract/charts/fineract-ui/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "frontend-fineract-ui-mount"
+data:
+    logback.xml: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <configuration scan="false">
+          <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+              <resetJUL>false</resetJUL>
+          </contextListener>
+    
+          <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+              <withJansi>false</withJansi>
+              <encoder>
+                  <pattern>%green(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n</pattern>
+              </encoder>
+          </appender>
+    
+          <root level="INFO">
+              <appender-ref ref="STDOUT" />
+          </root>
+      </configuration>
+---
+# Source: fineract/charts/fineract-ui/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-fineract-ui
+  labels:
+    helm.sh/chart: fineract-ui-0.1.3
+    app.kubernetes.io/name: fineract-ui
+    app.kubernetes.io/instance: frontend
+    app_name: fineract-ui
+    app.kubernetes.io/version: "1.0.3"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 443
+      targetPort: 443
+      protocol: TCP
+      name: https
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: fineract-ui
+    app.kubernetes.io/instance: frontend
+    app_name: fineract-ui
+---
+# Source: fineract/charts/fineract-ui/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-fineract-ui
+  labels:
+    helm.sh/chart: fineract-ui-0.1.3
+    app.kubernetes.io/name: fineract-ui
+    app.kubernetes.io/instance: frontend
+    app_name: fineract-ui
+    app.kubernetes.io/version: "1.0.3"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: fineract-ui
+      app.kubernetes.io/instance: frontend
+      app_name: fineract-ui
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: fineract-ui
+        app.kubernetes.io/instance: frontend
+        app_name: fineract-ui
+    spec:
+      serviceAccountName: application-sa
+      securityContext:
+        {}
+      volumes:
+        - name: secretmount
+          secret:
+            defaultMode: 420
+            items:
+            - key: crt.pem
+              path: crt.pem
+            - key: key.pem
+              path: key.pem
+            - key: default.conf.template
+              path: default.conf.template
+            secretName: "fineract-ui-secret"      
+      # imagePullSecrets:
+      #   - name: regcred
+      containers:
+        - name: fineract-ui
+          securityContext:
+            {}
+          image: "cdlazrfinacr.azurecr.io/app:v3"
+          imagePullPolicy: Always
+          volumeMounts:
+          - name: secretmount
+            mountPath: /etc/ssl/keys/crt.pem
+            subPath: crt.pem
+            readOnly: true
+          - name: secretmount
+            mountPath: /etc/ssl/keys/key.pem
+            subPath: key.pem
+            readOnly: true
+          - name: secretmount
+            mountPath: /etc/nginx/conf.d/default.conf.template
+            subPath: default.conf.template
+            readOnly: true
+          env:
+            - name: PLACEHOLDER
+              value: TEST
+            - name: "DOLLAR"
+              value: "$"
+            - name: "FINERACT_BASE_URL"
+              value: "/fineract-provider/api/v1"
+            - name: "FINERACT_DOMAIN"
+              value: "testnx360.creditdirect.ng"
+            - name: "FINERACT_PROXY_URL"
+              value: "https://backend-fineract-rest:8443"
+            - name: "REACT_APP_API_URL"
+              value: "https://testnx360.creditdirect.ng/fineract-provider/api/v1"
+            - name: REACT_CDL_API_URL
+              value: https://loansapibeta.creditdirect.ng/api/v1
+
+                     
+          ports:
+            - name: https
+              containerPort: 443
+              protocol: TCP
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 443
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 120
+            successThreshold: 1
+            timeoutSeconds: 10
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 443
+              scheme: HTTPS
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5      
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+            requests:
+              cpu: 512m
+              memory: 512Mi
+          args:
+          - /bin/bash
+          - -c
+          - envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
+            && nginx -g 'daemon off;'
+---
+# Source: fineract/charts/fineract-ui/templates/hpa.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: frontend-fineract-ui
+  labels:
+    helm.sh/chart: fineract-ui-0.1.3
+    app.kubernetes.io/name: fineract-ui
+    app.kubernetes.io/instance: frontend
+    app_name: fineract-ui
+    app.kubernetes.io/version: "1.0.3"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: frontend-fineract-ui
+  minReplicas: 1
+  maxReplicas: 1
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80
+---
+# Source: fineract/charts/fineract-ui/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-fineract-ui
+  labels:
+    helm.sh/chart: fineract-ui-0.1.3
+    app.kubernetes.io/name: fineract-ui
+    app.kubernetes.io/instance: frontend
+    app_name: fineract-ui
+    app.kubernetes.io/version: "1.0.3"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod-issuer
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "testnx360.creditdirect.ng"
+      secretName: fineract-tls
+  rules:
+    - host: "testnx360.creditdirect.ng"
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: frontend-fineract-ui
+                port:
+                  number: 443

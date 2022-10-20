@@ -1,0 +1,79 @@
+trigger: none
+
+resources:
+- repo: self
+
+variables:
+- name: tag
+  value: $(Build.BuildId)
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+
+    variables:
+    - name: ACR_REGISTRY
+      value: cdlazrfinacr.azurecr.io 
+   
+    - name: ACR_REPOSITORY
+      value: app
+         
+
+    steps:
+    
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'CDLAZRFINACR_SC' 
+        command: 'login'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'CDLAZRFINACR_SC'
+        repository: 'app'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/s/kubernetes'
+        artifact: 'manifests'
+        publishLocation: 'pipeline'
+
+- stage: Deploy
+  displayName: Deploy to Cluster
+  dependsOn: Build
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy fineract frontend to AKS
+    environment: 'CDL-AZR-FINAPPUAT_ENV.application'  
+    pool:
+      vmImage: ubuntu-latest
+    strategy:
+      runOnce:
+        deploy:
+           
+          steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              artifactName: 'manifests'
+              targetPath: '$(Pipeline.Workspace)/manifests'
+          # - task: KubectlInstaller@0
+          #   inputs:
+          #     kubectlVersion: 'latest'
+          # - script: |
+          #     kubectl create secret generic  fineract-ui-secret --from-file=$(Pipeline.Workspace)/manifests/certs/crt.pem  --from-file=$(Pipeline.Workspace)/manifests/certs/key.pem  --from-file=$(Pipeline.Workspace)/manifests/default.conf.template
+              
+          #   displayName: 'Create fineract ui secret'
+          #   workingDirectory: $(Pipeline.Workspace)/s/
+          - task: KubernetesManifest@0
+            inputs:
+              action: 'deploy'
+              kubernetesServiceConnection: 'CDL-AZR-FINAPPUAT_ENV-CDL_AZR_FINAPPUAT-application-1666112870047'
+              namespace: 'application'
+              manifests: '$(Pipeline.Workspace)/manifests/frontend.yaml'
+              containers: '$(ACR_REGISTRY)/$(ACR_REPOSITORY):$(tag)'

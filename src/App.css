@@ -1,0 +1,8 @@
+
+.MuiPhoneNumber-flagButton{
+  max-width: 8px !important;
+}
+
+::file-selector-button {
+  display: none;
+}

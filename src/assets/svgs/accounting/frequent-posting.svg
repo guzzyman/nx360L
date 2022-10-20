@@ -1,0 +1,8 @@
+<svg id="Group_54971" data-name="Group 54971" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <path id="Path_31615" data-name="Path 31615" d="M24,0A24,24,0,1,1,0,24,24,24,0,0,1,24,0Z" fill="#177eb9" opacity="0.1"/>
+  <g id="Icon_feather-refresh-cw" data-name="Icon feather-refresh-cw" transform="translate(13 15)">
+    <path id="Path_31682" data-name="Path 31682" d="M23,4v6H17" transform="translate(-1 -3.002)" fill="none" stroke="#177eb9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_31683" data-name="Path 31683" d="M1,20V14H7" transform="translate(-1 -3.002)" fill="none" stroke="#177eb9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_31684" data-name="Path 31684" d="M3.51,9A9,9,0,0,1,18.36,5.64L23,10M1,14l4.64,4.36A9,9,0,0,0,20.49,15" transform="translate(-1 -3.002)" fill="none" stroke="#177eb9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>
