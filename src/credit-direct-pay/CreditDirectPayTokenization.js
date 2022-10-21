@@ -42,8 +42,6 @@ function CreditDirectPayTokenization({
   cdlPayTokenizeCardMutation,
   generateCdlPayLinkMuation,
   generateCdlPayLinkMuationResult,
-  cdlPayLoanDecideMutation,
-  cdlPayLoanDecideMutationResult,
   config,
   state,
   setState,
@@ -269,7 +267,7 @@ function CreditDirectPayTokenization({
                       mode: "both",
                       loanId: config?.loanId,
                     }).unwrap();
-                  // sendEvent(event.success);
+                  sendEvent(event.success);
                   window.location = `${window.location.origin}${generatePath(
                     RouteEnum.CREDIT_DIRECT_PAY,
                     {
@@ -282,31 +280,12 @@ function CreditDirectPayTokenization({
                   //   })
                   // );
                 } else {
-                  let decideData;
-                  if (
-                    (isTokenization || isDownPayment) &&
-                    !config.isLoanActive
-                  ) {
-                    decideData = await cdlPayLoanDecideMutation({
-                      loanId: config?.loanId,
-                      takenDownPaymentWithCharges: config?.isExternalService
-                        ? true //acceptDisbursementServiceFeeFromExternal
-                        : false,
-                      note: "send approval form Nx360 Lite (Ltrack)",
-                    }).unwrap();
-                  }
                   setState((s) => ({
                     ...s,
                     gateway: Object.keys(PaymentMethodIndexEnum)[
                       values.selectedMethod
                     ],
                     transactionRef: valueRef || resData?.changes?.mandateId,
-                    message:
-                      config.isExternalService && decideData
-                        ? decideData?.changes?.status?.id == 300
-                          ? "We have received your down payment and loan has been approved."
-                          : "Your loan is currently in review, a loan officer will attend to you shortly."
-                        : undefined,
                   }));
                   stepper.nextStep();
                   sendEvent(event.success);
@@ -360,14 +339,8 @@ function CreditDirectPayTokenization({
           )}
         {isDeductionAtSourceOnRepaymentMethods ? (
           <LoadingContent
-            loading={
-              cdlPayTokenizeCardMutationResult.isLoading ||
-              cdlPayLoanDecideMutationResult?.isLoading
-            }
-            error={
-              cdlPayTokenizeCardMutationResult.isError ||
-              cdlPayLoanDecideMutationResult?.isError
-            }
+            loading={cdlPayTokenizeCardMutationResult.isLoading}
+            error={cdlPayTokenizeCardMutationResult.isError}
             onMount={formik.handleSubmit}
             onReload={formik.handleSubmit}
             loadingContent={(defaultLoadingContent) => (
@@ -565,8 +538,7 @@ function CreditDirectPayTokenization({
                       "Proceed"
                     ) : (
                       <>
-                        {cdlPayTokenizeCardMutationResult.isLoading ||
-                        cdlPayLoanDecideMutationResult?.isLoading ? (
+                        {cdlPayTokenizeCardMutationResult.isLoading ? (
                           isTokenization ? (
                             "Tokenizing Card"
                           ) : (

@@ -11,8 +11,7 @@ function EDRPartiallyProcessed(props) {
       title="Partially Processed"
       breadcrumbs={() => [{ name: "Partially Processed" }]}
       queryArgs={queryArgs}
-      // useGetEDRsQuery={nxEDRPartiallyProcessedApi.useGetEDRsQuery}
-      useGetEDRsQuery={useGetPartialEDRsQuery}
+      useGetEDRsQuery={nxEDRPartiallyProcessedApi.useGetEDRsQuery}
       detailsRoutePath={RouteEnum.EDR_PARTIALLY_PROCESSED_DETAILS}
       columns={columns}
     />
@@ -21,17 +20,10 @@ function EDRPartiallyProcessed(props) {
 
 export default EDRPartiallyProcessed;
 
-function useGetPartialEDRsQuery({ fromDate, toDate, ...arg0 }, arg1) {
-  return nxEDRPartiallyProcessedApi.useGetPartialEDRsQuery(
-    { ...arg0, startPeriod: fromDate, endPeriod: toDate },
-    arg1
-  );
-}
-
 const queryArgs = {
   status: EDRStatusEnum.PARTIAL,
   creditDirectPayEnum: 6,
-  // withUniqueId: true,
+  withUniqueId: true,
 };
 
 const columns = [

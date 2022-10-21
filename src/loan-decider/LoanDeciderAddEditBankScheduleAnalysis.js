@@ -1,135 +1,46 @@
 import { MenuItem, TextField } from "@mui/material";
 import React from "react";
-import { monthInView, prefferedPaymentMode } from "./LoanDeciderConstant";
+import { getTextFieldFormikProps } from "common/Utils";
+import { nimbleX360CRMLoanProductApi } from "loan-product/LoanProductStoreQuerySlice";
 
-export default function LoanDeciderAddEditBankScheduleAnalysis({
-  formik,
-  isView,
-}) {
+export default function LoanDeciderAddEditBankScheduleAnalysis({ formik }) {
+  const loanProductQuery =
+    nimbleX360CRMLoanProductApi.useGetLoanProductsQuery();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
       <TextField
         fullWidth
-        disabled={isView}
-        label="Month In View"
+        label="Product Name"
         className="col-span-2"
         select
-        {...formik.getFieldProps("bankScheduleAnalysis.monthInView")}
-        error={
-          !!formik.touched.bankScheduleAnalysis?.monthInView &&
-          !!formik.errors.bankScheduleAnalysis?.monthInView
-        }
-        helperText={
-          !!formik.touched.bankScheduleAnalysis?.monthInView &&
-          formik.errors.bankScheduleAnalysis?.monthInView
-        }
+        {...getTextFieldFormikProps(formik, "productId")}
       >
-        {monthInView.map((option, i) => (
-          <MenuItem key={i} value={option}>
-            {option}
-          </MenuItem>
-        ))}
+        {loanProductQuery?.data &&
+          loanProductQuery?.data?.map((option) => (
+            <MenuItem key={option.id} value={option.id}>
+              {option.name}
+            </MenuItem>
+          ))}
       </TextField>
 
       <TextField
         fullWidth
-        disabled={isView}
-        label="Min Net Pay"
-        {...formik.getFieldProps("bankScheduleAnalysis.minNetPay")}
-        error={
-          !!formik.touched.bankScheduleAnalysis?.minNetPay &&
-          !!formik.errors.bankScheduleAnalysis?.minNetPay
-        }
-        helperText={
-          !!formik.touched.bankScheduleAnalysis?.minNetPay &&
-          formik.errors.bankScheduleAnalysis?.minNetPay
-        }
-        type="number"
+        label="Average Inflow Minimum"
+        {...getTextFieldFormikProps(formik, "averageInflowMin")}
       />
 
       <TextField
         fullWidth
-        disabled={isView}
-        label="Min Gross Pay"
-        {...formik.getFieldProps("bankScheduleAnalysis.minGrossPay")}
-        error={
-          !!formik.touched.bankScheduleAnalysis?.minGrossPay &&
-          !!formik.errors.bankScheduleAnalysis?.minGrossPay
-        }
-        helperText={
-          !!formik.touched.bankScheduleAnalysis?.minGrossPay &&
-          formik.errors.bankScheduleAnalysis?.minGrossPay
-        }
-        type="number"
+        label="Average Inflow Maximum"
+        {...getTextFieldFormikProps(formik, "averageInflowMax")}
       />
 
       <TextField
         fullWidth
-        disabled={isView}
-        label="Preferred Payment Mode"
+        label="Account Sweep"
         select
-        {...formik.getFieldProps("bankScheduleAnalysis.preferredPaymentMode")}
-        error={
-          !!formik.touched.bankScheduleAnalysis?.preferredPaymentMode &&
-          !!formik.errors.bankScheduleAnalysis?.preferredPaymentMode
-        }
-        helperText={
-          !!formik.touched.bankScheduleAnalysis?.preferredPaymentMode &&
-          formik.errors.bankScheduleAnalysis?.preferredPaymentMode
-        }
-      >
-        {prefferedPaymentMode.map((data, i) => (
-          <MenuItem key={i} value={data}>
-            {data}
-          </MenuItem>
-        ))}
-      </TextField>
-      <TextField
-        fullWidth
-        disabled={isView}
-        label="Minimum Number of Salary Payment"
-        {...formik.getFieldProps("bankScheduleAnalysis.minNoOSalary")}
-        error={
-          !!formik.touched.bankScheduleAnalysis?.minNoOSalary &&
-          !!formik.errors.bankScheduleAnalysis?.minNoOSalary
-        }
-        helperText={
-          !!formik.touched.bankScheduleAnalysis?.minNoOSalary &&
-          formik.errors.bankScheduleAnalysis?.minNoOSalary
-        }
-        type="number"
-      />
-
-      <TextField
-        fullWidth
-        disabled={isView}
-        label="DSR"
-        {...formik.getFieldProps("bankScheduleAnalysis.dsr")}
-        error={
-          !!formik.touched.bankScheduleAnalysis?.dsr &&
-          !!formik.errors.bankScheduleAnalysis?.dsr
-        }
-        helperText={
-          !!formik.touched.bankScheduleAnalysis?.dsr &&
-          formik.errors.bankScheduleAnalysis?.dsr
-        }
-        type="number"
-      />
-
-      <TextField
-        fullWidth
-        disabled={isView}
-        label="Allow Null"
-        select
-        {...formik.getFieldProps("bankScheduleAnalysis.allowNull")}
-        error={
-          !!formik.touched.bankScheduleAnalysis?.allowNull &&
-          !!formik.errors.bankScheduleAnalysis?.allowNull
-        }
-        helperText={
-          !!formik.touched.bankScheduleAnalysis?.allowNull &&
-          formik.errors.bankScheduleAnalysis?.allowNull
-        }
+        {...getTextFieldFormikProps(formik, "accountSweep")}
       >
         {["true", "false"].map((data, i) => (
           <MenuItem key={i} value={data}>
@@ -137,6 +48,31 @@ export default function LoanDeciderAddEditBankScheduleAnalysis({
           </MenuItem>
         ))}
       </TextField>
+      <TextField
+        fullWidth
+        label="Minimum Gambling Rate (%)"
+        {...getTextFieldFormikProps(formik, "minGamblingRate")}
+      />
+      <TextField
+        fullWidth
+        label="Last Date Of Credit"
+        {...getTextFieldFormikProps(formik, "lastIntervalOfCredit")}
+      />
+      <TextField
+        fullWidth
+        label="Min. No of salary payment"
+        {...getTextFieldFormikProps(formik, "miniNoOfSalaryPayment")}
+      />
+      <TextField
+        fullWidth
+        label="Salary Earner (DSR %)"
+        {...getTextFieldFormikProps(formik, "salaryEarnerDSR")}
+      />
+      <TextField
+        fullWidth
+        label="Non Salary Earner (DSR %)"
+        {...getTextFieldFormikProps(formik, "nonSalaryEarnerDSR")}
+      />
     </div>
   );
 }

@@ -357,34 +357,4 @@ const LINKS = [
       },
     ],
   },
-  {
-    name: "Reconciliation",
-    icon: "list_alt",
-    // permissions: [UIPermissionEnum.APPROVALUNDO_LOAN_CHECKER],
-    children: [
-      {
-        name: "Disbursements",
-        path: RouteEnum.DISBURSEMENTS,
-        icon: "filter_alt",
-        // permissions: [UIPermissionEnum.APPROVALUNDO_LOAN_CHECKER],
-      },
-      {
-        name: "Repayments",
-        path: RouteEnum.REPAYMENTS,
-        icon: "filter_alt",
-      },
-      {
-        name: "Merchants",
-        path: RouteEnum.MERCHANTS,
-        icon: "check_circle",
-        // permissions: [UIPermissionEnum.APPROVE_SAVINGSACCOUNT_CHECKER],
-      },
-      {
-        name: "Exceptions",
-        path: RouteEnum.EXCEPTIONS,
-        icon: "check_circle",
-        // permissions: [UIPermissionEnum.APPROVE_SAVINGSACCOUNT_CHECKER],
-      },
-    ],
-  },
 ];

@@ -18,10 +18,11 @@ class IdleTimer {
     this.eventHandler = this.updateExpiredTime.bind(this);
 
     const expiredTime = this.getExpiredTime() || 0;
-    if (expiredTime > 0 && expiredTime <= Date.now() && this.onLoadTimeout) {
-      console.log("SESSION_TIMED_OUT_ON_LOAD");
-      this.onLoadTimeout();
-      this.setExpiredTime(0);
+    if (expiredTime > 0 && expiredTime <= Date.now()) {
+      if (this.onLoadTimeout) {
+        this.onLoadTimeout();
+      }
+      this.setExpiredTime(0)
       return;
     }
 
@@ -37,7 +38,6 @@ class IdleTimer {
     this.interval = setInterval(() => {
       const expiredTime = this.getExpiredTime() || 0;
       if (expiredTime <= Date.now()) {
-        console.log("SESSION_TIMED_OUT");
         if (this.onTimeout) {
           this.onTimeout(expiredTime);
         }
@@ -58,7 +58,7 @@ class IdleTimer {
     window.removeEventListener("mousemove", this.eventHandler);
     window.removeEventListener("scroll", this.eventHandler);
     window.removeEventListener("keydown", this.eventHandler);
-    this.setExpiredTime(0);
+    this.setExpiredTime(0)
   }
 
   _setExpiredTime(expiredTime) {

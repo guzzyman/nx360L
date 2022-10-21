@@ -1,15 +1,15 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query/react";
-import { deepMerge, throttle, isObjectEmpty } from "./Utils";
-import { logoutAction } from "./StoreActions";
+import {configureStore} from '@reduxjs/toolkit';
+import {setupListeners} from '@reduxjs/toolkit/query/react';
+import {deepMerge, throttle, isObjectEmpty} from './Utils';
+import {logoutAction} from './StoreActions';
 import globalSlice, {
   getGlobalSliceStorageState,
   globalInitialState,
-} from "./StoreSlice";
+} from './StoreSlice';
 import loginSlice, {
   getLoginSliceStorageState,
   loginInitialState,
-} from "login/LoginStoreSlice";
+} from 'login/LoginStoreSlice';
 import {
   creditDirectApi,
   nimbleX360Api,
@@ -17,9 +17,9 @@ import {
   sequestApi,
   publicApi,
   nimbleX360MambuApi,
-} from "./StoreQuerySlice";
+} from './StoreQuerySlice';
 
-const store = configureStore({
+const store = configureStore ({
   reducer: {
     [globalSlice.name]: globalSlice.reducer,
     [loginSlice.name]: loginSlice.reducer,
@@ -30,76 +30,74 @@ const store = configureStore({
     [nimbleX360WrapperApi.reducerPath]: nimbleX360WrapperApi.reducer,
     [nimbleX360MambuApi.reducerPath]: nimbleX360MambuApi.reducer,
   },
-  preloadedState: loadState({
+  preloadedState: loadState ({
     [globalSlice.name]: globalInitialState,
     [loginSlice.name]: loginInitialState,
   }),
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware ().concat (
       nimbleX360Api.middleware,
       sequestApi.middleware,
       publicApi.middleware,
       creditDirectApi.middleware,
       nimbleX360MambuApi.middleware,
-      rtkqOnResetMiddleware(
+      rtkqOnResetMiddleware (
         nimbleX360Api,
         sequestApi,
-        publicApi,
-        creditDirectApi,
-        nimbleX360MambuApi
+        nimbleX360MambuApi,
+        publicApi
       )
     ),
 });
 
-setupListeners(store.dispatch);
+setupListeners (store.dispatch);
 
-store.subscribe(
-  throttle(() => {
-    const state = store.getState();
-    saveState({
-      [globalSlice.name]: getGlobalSliceStorageState(state[globalSlice.name]),
-      [loginSlice.name]: getLoginSliceStorageState(state[loginSlice.name]),
+store.subscribe (
+  throttle (() => {
+    const state = store.getState ();
+    saveState ({
+      [globalSlice.name]: getGlobalSliceStorageState (state[globalSlice.name]),
+      [loginSlice.name]: getLoginSliceStorageState (state[loginSlice.name]),
     });
   }, 1000)
 );
 
 export default store;
 
-function saveState(state) {
+function saveState (state) {
   try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem("@state", serializedState);
+    const serializedState = JSON.stringify (state);
+    localStorage.setItem ('@state', serializedState);
   } catch (error) {}
 }
 
-function loadState(initialState = {}) {
+function loadState (initialState = {}) {
   try {
-    const newState = Object.assign({}, initialState);
-    const storageState = getLocalStorageState();
-    if (storageState && !isObjectEmpty(storageState)) {
-      Object.assign(newState, deepMerge(newState, storageState));
+    const newState = Object.assign ({}, initialState);
+    const storageState = getLocalStorageState ();
+    if (storageState && !isObjectEmpty (storageState)) {
+      Object.assign (newState, deepMerge (newState, storageState));
     }
     return newState;
   } catch (error) {}
   return undefined;
 }
 
-function getLocalStorageState() {
-  const serializedState = localStorage.getItem("@state");
+function getLocalStorageState () {
+  const serializedState = localStorage.getItem ('@state');
   if (serializedState) {
-    return JSON.parse(serializedState);
+    return JSON.parse (serializedState);
   }
   return null;
 }
 
-export function rtkqOnResetMiddleware(...apis) {
-  return (store) => (next) => (action) => {
-    const result = next(action);
-    if (logoutAction.match(action)) {
+export function rtkqOnResetMiddleware (...apis) {
+  return store => next => action => {
+    const result = next (action);
+    if (logoutAction.match (action)) {
       for (const api of apis) {
-        store.dispatch(api.util.resetApiState());
+        store.dispatch (api.util.resetApiState ());
       }
-      localStorage.clear();
     }
     return result;
   };

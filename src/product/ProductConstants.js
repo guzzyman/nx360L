@@ -82,11 +82,4 @@ export const PRODUCTS = [
     to: RouteEnum.ADMINISTRATION_PRODUCTS_LOAN_DECIDER,
     // permissions: [UIPermissionEnum.UPDATE_SAVINGSPRODUCT],
   },
-  {
-    name: "USSD Prequalification",
-    description: "USSD Bank Schedule Prequalification",
-    Icon: ProductLoan,
-    to: RouteEnum.ADMINISTRATION_PRODUCTS_USSD_PREQUALIFICATION,
-    // permissions: [UIPermissionEnum.UPDATE_SAVINGSPRODUCT],
-  },
 ];

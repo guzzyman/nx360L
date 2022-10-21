@@ -95,10 +95,6 @@ function CRMClientDetailsProfile({ client, noEdit }) {
           new Date(parseDateToString(client?.clients?.dateOfBirth))
         )} years` || "",
     },
-    {
-      title: "Client Type",
-      value: client?.clients?.clientType?.name || "",
-    },
   ];
 
   const employmentInformations = [

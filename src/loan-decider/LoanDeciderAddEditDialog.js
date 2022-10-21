@@ -12,19 +12,11 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import LoanDeciderAddEditBankStatement from "./LoanDeciderAddEditBankStatement";
-import {
-  Checkbox,
-  FormControlLabel,
-  Icon,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { Checkbox, FormControlLabel, Icon } from "@mui/material";
 import LoanDeciderAddEditCreditReportAnalysis from "./LoanDeciderAddEditCreditReportAnalysis";
 import LoanDeciderAddEditBankScheduleAnalysis from "./LoanDeciderAddEditBankScheduleAnalysis";
 import LoanDeciderAddEditRemitaReferencingAnalysis from "./LoanDeciderAddEditRemitaReferencingAnalysis";
 import { useState } from "react";
-import { nimbleX360CRMLoanProductApi } from "loan-product/LoanProductStoreQuerySlice";
-import { getTextFieldFormikProps } from "common/Utils";
 
 export default function LoanDeciderAddEditDialog({
   open,
@@ -36,8 +28,6 @@ export default function LoanDeciderAddEditDialog({
   const isEdit = !!loanDeciderInstance?.productId;
   const { enqueueSnackbar } = useSnackbar();
 
-  const loanProductQuery =
-    nimbleX360CRMLoanProductApi.useGetLoanProductsQuery();
   const { data: loanDeciderData } =
     LoanDeciderStoreQuerySlice.useGetAdminLoanDeciderQuery(
       loanDeciderInstance.productId,
@@ -45,27 +35,28 @@ export default function LoanDeciderAddEditDialog({
     );
 
   console.log("loanDeciderData", loanDeciderData);
+  const [deciderChecks, setDeciderChecks] = useState({
+    bankStatementAnalysis: true,
+    creditReportAnalysis: false,
+    bankScheduleAnalysis: false,
+    remitaReferencingAnalysis: false,
+  });
 
   const [addLoanDecider, addLoanDeciderQuery] =
     LoanDeciderStoreQuerySlice.useAddAdminLoanDeciderMutation();
   const [editLoanDecider, editLoanDeciderQuery] =
     LoanDeciderStoreQuerySlice.useEditAdminLoanDeciderMutation();
-  console.log(
-    "loanDeciderData?.data?.hasOwnProperty",
-    loanDeciderData?.data?.hasOwnProperty("showBankScheduleAnalysis")
-  );
+
   const formik = useFormik({
     initialValues: {
-      productId: loanDeciderData?.data?.bankStatement?.productId || "",
-      productName: loanDeciderData?.data?.productName || "",
-      showBankStatement: loanDeciderInstance.bankStatement || true,
+      productId: loanDeciderData?.data?.productId || "",
+      // productName: loanDeciderData?.data?.productName || "",
       bankStatement: {
         averageInflowMin:
           loanDeciderData?.data?.bankStatement?.averageInflowMin || "",
         averageInflowMax:
           loanDeciderData?.data?.bankStatement?.averageInflowMax || "",
-        accountSweep:
-          loanDeciderData?.data?.bankStatement?.accountSweep || "false",
+        accountSweep: loanDeciderData?.data?.bankStatement?.accountSweep || "",
         minGamblingRate:
           loanDeciderData?.data?.bankStatement?.minGamblingRate || "",
         lastIntervalOfCredit:
@@ -78,321 +69,42 @@ export default function LoanDeciderAddEditDialog({
           loanDeciderData?.data?.bankStatement?.nonSalaryEarnerDSR || "",
         allowNull: loanDeciderData?.data?.bankStatement?.allowNull || "",
       },
-
-      showCreditReport: loanDeciderInstance.creditReport || false,
-      creditReport: {
-        maximumDaysInArrears:
-          loanDeciderData?.data?.creditReport?.maximumDaysInArrears || "",
-        maximumAccountsInArrears:
-          loanDeciderData?.data?.creditReport?.maximumAccountsInArrears || "",
-        allowNull: loanDeciderData?.data?.creditReport?.allowNull || "",
-      },
-
-      showBankScheduleAnalysis: loanDeciderInstance.bankSchedule || false,
-      bankScheduleAnalysis: {
-        monthInView:
-          loanDeciderData?.data?.bankScheduleAnalysis?.monthInView || "",
-        minNoOSalary:
-          loanDeciderData?.data?.bankScheduleAnalysis?.minNoOSalary || "",
-        minNetPay: loanDeciderData?.data?.bankScheduleAnalysis?.minNetPay || "",
-        minGrossPay:
-          loanDeciderData?.data?.bankScheduleAnalysis?.minGrossPay || "",
-        dsr: loanDeciderData?.data?.bankScheduleAnalysis?.dsr || "",
-        preferredPaymentMode:
-          loanDeciderData?.data?.bankScheduleAnalysis?.preferredPaymentMode ||
-          "",
-        allowNull: loanDeciderData?.data?.bankScheduleAnalysis?.allowNull || "",
-      },
-
-      showRemitaReferencingAnalysis: loanDeciderInstance.remit || false,
-      remitaReferencingAnalysis: {
-        monthInView:
-          loanDeciderData?.data?.remitaReferencingAnalysis?.monthInView || "",
-        minimumNoOfSalaryPayment:
-          loanDeciderData?.data?.remitaReferencingAnalysis
-            ?.minimumNoOfSalaryPayment || "",
-        minimumNetPay:
-          loanDeciderData?.data?.remitaReferencingAnalysis?.minimumNetPay || "",
-        minimumGrossPay:
-          loanDeciderData?.data?.remitaReferencingAnalysis?.minimumGrossPay ||
-          "",
-        preferredPaymentMode:
-          loanDeciderData?.data?.remitaReferencingAnalysis
-            ?.preferredPaymentMode || "",
-        allowNull:
-          loanDeciderData?.data?.remitaReferencingAnalysis?.allowNull || "",
-        dsr: loanDeciderData?.data?.remitaReferencingAnalysis?.dsr || "",
-      },
     },
     enableReinitialize: true,
     validationSchema: yup.object({
-      productId: yup.string().when("showBankStatement", {
-        is: true,
-        then: yup.string().required(),
-      }),
-      productName: yup.string().required(),
+      productId: yup.string().required(),
       bankStatement: yup.object({
-        averageInflowMin: yup
-          .string()
-          .label("Average Inflow Min.")
-          .when("showBankStatement", {
-            is: true,
-            then: yup.string().when("showBankStatement", {
-              is: true,
-              then: yup.string().required(),
-            }),
-          }),
-        averageInflowMax: yup
-          .string()
-          .label("Average Inflow Max.")
-          .when("showBankStatement", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        accountSweep: yup
-          .string()
-          .label("Account Sweep")
-          .when("showBankStatement", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        minGamblingRate: yup
-          .string()
-          .label("Min Gambling Rate")
-          .when("showBankStatement", {
-            is: true,
-            then: yup.string().required(),
-          }),
+        averageInflowMin: yup.string().label("Average Inflow Min.").required(),
+        averageInflowMax: yup.string().label("Average Inflow Max.").required(),
+        accountSweep: yup.string().label("Account Sweep").required(),
+        minGamblingRate: yup.string().label("Min Gambling Rate").required(),
         lastIntervalOfCredit: yup
           .string()
           .label("Last Interval Of Credit")
-          .when("showBankStatement", {
-            is: true,
-            then: yup.string().required(),
-          }),
+          .required(),
         miniNoOfSalaryPayment: yup
           .string()
           .label("Min No Of Salary Payment")
-          .when("showBankStatement", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        salaryEarnerDSR: yup
-          .string()
-          .label("Salary Earner DSR")
-          .when("showBankStatement", {
-            is: true,
-            then: yup.string().required(),
-          }),
+          .required(),
+        salaryEarnerDSR: yup.string().label("Salary Earner DSR").required(),
         nonSalaryEarnerDSR: yup
           .string()
           .label("Non Salary Earner DSR")
-          .when("showBankStatement", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        allowNull: yup.string().label("Allow Null").when("showBankStatement", {
-          is: true,
-          then: yup.string().required(),
-        }),
-      }),
-      creditReport: yup.object({
-        maximumDaysInArrears: yup
-          .string()
-          .label("Maximum Days In Arrears")
-          .when("showCreditReport", {
-            is: true,
-            then: yup.string().when("showCreditReport", {
-              is: true,
-              then: yup.string().required(),
-            }),
-          }),
-        maximumAccountsInArrears: yup
-          .string()
-          .label("Maximum Account In Arrears")
-          .when("showCreditReport", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        allowNull: yup.string().label("Allow Null").when("showCreditReport", {
-          is: true,
-          then: yup.string().required(),
-        }),
-      }),
-      bankScheduleAnalysis: yup.object({
-        monthInView: yup
-          .string()
-          .label("Month In View")
-          .when("showBankScheduleAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        minNoOSalary: yup
-          .string()
-          .label("Minimum Number Of salary")
-          .when("showBankScheduleAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        minGrossPay: yup
-          .string()
-          .label("Minimum Gross Pay")
-          .when("showBankScheduleAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        minNetPay: yup
-          .string()
-          .label("Minimum Net Pay")
-          .when("showRemitaReferencingAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        preferredPaymentMode: yup
-          .string()
-          .label("Preferred Payment Mode")
-          .when("showBankScheduleAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        allowNull: yup
-          .string()
-          .label("Allow Null")
-          .when("showBankScheduleAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
-      }),
-      remitaReferencingAnalysis: yup.object({
-        monthInView: yup
-          .string()
-          .label("Month In View")
-          .when("showRemitaReferencingAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        minimumNoOfSalaryPayment: yup
-          .string()
-          .label("Minimum Number Of salary Payment")
-          .when("showRemitaReferencingAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        minimumNetPay: yup
-          .string()
-          .label("Minimum Net Pay")
-          .when("showRemitaReferencingAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        minimumGrossPay: yup
-          .string()
-          .label("Minimum Gross Pay")
-          .when("showRemitaReferencingAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        preferredPaymentMode: yup
-          .string()
-          .label("Preferred Payment Mode")
-          .when("showRemitaReferencingAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
-        // dsr: yup.string().label("DSR").when("showRemitaReferencingAnalysis", {
-        //   is: true,
-        //   then: yup.string().required(),
-        // }),
-        allowNull: yup
-          .string()
-          .label("Allow Null")
-          .when("showRemitaReferencingAnalysis", {
-            is: true,
-            then: yup.string().required(),
-          }),
+          .required(),
+        allowNull: yup.string().label("Allow Null").required(),
       }),
     }),
 
     onSubmit: async (values) => {
       try {
-        const newValues = {
-          productId: values?.productId || "",
-          productName: values?.productName || "",
-          ...(values.showBankStatement
-            ? {
-                bankStatement: {
-                  averageInflowMin:
-                    values?.bankStatement?.averageInflowMin || "",
-                  averageInflowMax:
-                    values?.bankStatement?.averageInflowMax || "",
-                  accountSweep: values?.bankStatement?.accountSweep || "",
-                  minGamblingRate: values?.bankStatement?.minGamblingRate || "",
-                  lastIntervalOfCredit:
-                    values?.bankStatement?.lastIntervalOfCredit || "",
-                  miniNoOfSalaryPayment:
-                    values?.bankStatement?.miniNoOfSalaryPayment || "",
-                  salaryEarnerDSR: values?.bankStatement?.salaryEarnerDSR || "",
-                  nonSalaryEarnerDSR:
-                    values?.bankStatement?.nonSalaryEarnerDSR || "",
-                  allowNull: values?.bankStatement?.allowNull || "",
-                },
-              }
-            : {}),
-          ...(values.showCreditReport
-            ? {
-                creditReport: {
-                  maximumDaysInArrears:
-                    values?.creditReport?.maximumDaysInArrears || "",
-                  maximumAccountsInArrears:
-                    values?.creditReport?.maximumAccountsInArrears || "",
-                  allowNull: values?.creditReport?.allowNull || "",
-                },
-              }
-            : {}),
-          ...(values.showBankScheduleAnalysis
-            ? {
-                bankScheduleAnalysis: {
-                  monthInView: values?.bankScheduleAnalysis?.monthInView || "",
-                  minNoOSalary:
-                    values?.bankScheduleAnalysis?.minNoOSalary || "",
-                  minNetPay: values?.bankScheduleAnalysis?.minNetPay || "",
-                  minGrossPay: values?.bankScheduleAnalysis?.minGrossPay || "",
-                  dsr: values?.bankScheduleAnalysis?.dsr || "",
-                  preferredPaymentMode:
-                    values?.bankScheduleAnalysis?.preferredPaymentMode || "",
-                  allowNull: values?.bankScheduleAnalysis?.allowNull || "",
-                },
-              }
-            : {}),
-          ...(values.showRemitaReferencingAnalysis
-            ? {
-                remitaReferencingAnalysis: {
-                  monthInView:
-                    values?.remitaReferencingAnalysis?.monthInView || "",
-                  minimumNoOfSalaryPayment:
-                    values?.remitaReferencingAnalysis
-                      ?.minimumNoOfSalaryPayment || "",
-                  minimumNetPay:
-                    values?.remitaReferencingAnalysis?.minimumNetPay || "",
-                  minimumGrossPay:
-                    values?.remitaReferencingAnalysis?.minimumGrossPay || "",
-                  preferredPaymentMode:
-                    values?.remitaReferencingAnalysis?.preferredPaymentMode ||
-                    "",
-                  allowNull: values?.remitaReferencingAnalysis?.allowNull || "",
-                  dsr: values?.remitaReferencingAnalysis?.dsr || "",
-                },
-              }
-            : {}),
-        };
         let resp;
         if (isEdit) {
           resp = await editLoanDecider({
             id: loanDeciderInstance?.productId,
-            ...newValues,
+            ...values,
           }).unwrap();
         } else {
-          resp = await addLoanDecider(newValues).unwrap();
+          resp = await addLoanDecider(values).unwrap();
         }
         onClose();
 
@@ -427,19 +139,22 @@ export default function LoanDeciderAddEditDialog({
     () => [
       {
         title: "Bank Statement analysis",
-        name: "showBankStatement",
+        name: "bankStatementAnalysis",
       },
       {
         title: "Credit Report analysis",
-        name: "showCreditReport",
+        disabled: true,
+        name: "creditReportAnalysis",
       },
       {
         title: "Bank Schedule analysis",
-        name: "showBankScheduleAnalysis",
+        disabled: true,
+        name: "bankScheduleAnalysis",
       },
       {
         title: "Remita Referencing analysis",
-        name: "showRemitaReferencingAnalysis",
+        disabled: true,
+        name: "remitaReferencingAnalysis",
       },
     ],
     []
@@ -447,7 +162,7 @@ export default function LoanDeciderAddEditDialog({
 
   const contents = useMemo(
     () => [
-      ...(formik.values.showBankStatement
+      ...(deciderChecks.bankStatementAnalysis
         ? [
             {
               title: "Bank Statement analysis",
@@ -460,56 +175,47 @@ export default function LoanDeciderAddEditDialog({
             },
           ]
         : []),
-      ...(formik.values.showCreditReport
+      ...(deciderChecks.creditReportAnalysis
         ? [
             {
               title: "Credit Report analysis",
               content: (
-                <LoanDeciderAddEditCreditReportAnalysis
-                  formik={formik}
-                  isView={isView}
-                />
+                <LoanDeciderAddEditCreditReportAnalysis formik={formik} />
               ),
             },
           ]
         : []),
-      ...(formik.values.showBankScheduleAnalysis
+      ...(deciderChecks.bankScheduleAnalysis
         ? [
             {
               title: "Bank Schedule analysis",
               content: (
-                <LoanDeciderAddEditBankScheduleAnalysis
-                  formik={formik}
-                  isView={isView}
-                />
+                <LoanDeciderAddEditBankScheduleAnalysis formik={formik} />
               ),
             },
           ]
         : []),
-      ...(formik.values.showRemitaReferencingAnalysis
+      ...(deciderChecks.remitaReferencingAnalysis
         ? [
             {
               title: "Remita Referencing analysis",
               content: (
-                <LoanDeciderAddEditRemitaReferencingAnalysis
-                  formik={formik}
-                  isView={isView}
-                />
+                <LoanDeciderAddEditRemitaReferencingAnalysis formik={formik} />
               ),
             },
           ]
         : []),
     ],
-    [formik, isView]
+    [formik, deciderChecks, isView]
   );
 
   const handleChangeDeciderChecks = (event) => {
-    formik.setFieldValue(
-      `${event.target.name}`,
-      !formik.values[`${event.target.name}`]
-    );
+    setDeciderChecks({
+      ...deciderChecks,
+      [event.target.name]: event.target.checked,
+    });
   };
-  console.log("formik", formik);
+  console.log("isView", isView);
 
   return (
     <Modal
@@ -528,7 +234,7 @@ export default function LoanDeciderAddEditDialog({
               control={
                 <Checkbox
                   disabled={check.disabled}
-                  checked={formik.values[check.name]}
+                  checked={deciderChecks[check.name]}
                   onChange={handleChangeDeciderChecks}
                   name={check.name}
                 />
@@ -539,26 +245,6 @@ export default function LoanDeciderAddEditDialog({
         </div>
       )}
       <div>
-        <TextField
-          fullWidth
-          disabled={isView}
-          label="Product Name"
-          className="mb-5"
-          select
-          {...getTextFieldFormikProps(formik, "productId")}
-        >
-          {loanProductQuery?.data &&
-            loanProductQuery?.data?.map((option) => (
-              <MenuItem
-                key={option.id}
-                onClick={() => formik.setFieldValue("productName", option.name)}
-                value={option.id}
-              >
-                {option.name}
-              </MenuItem>
-            ))}
-        </TextField>
-
         {contents.map((content, i) => (
           <Accordion
             key={i}

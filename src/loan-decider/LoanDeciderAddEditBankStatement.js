@@ -1,9 +1,30 @@
 import { MenuItem, TextField } from "@mui/material";
 import React from "react";
+import { getTextFieldFormikProps } from "common/Utils";
+import { nimbleX360CRMLoanProductApi } from "loan-product/LoanProductStoreQuerySlice";
 
 export default function LoanDeciderAddEditBankStatement({ formik, isView }) {
+  const loanProductQuery =
+    nimbleX360CRMLoanProductApi.useGetLoanProductsQuery();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+      <TextField
+        fullWidth
+        disabled={isView}
+        label="Product Name"
+        className="col-span-2"
+        select
+        {...getTextFieldFormikProps(formik, "productId")}
+      >
+        {loanProductQuery?.data &&
+          loanProductQuery?.data?.map((option) => (
+            <MenuItem key={option.id} value={option.id}>
+              {option.name}
+            </MenuItem>
+          ))}
+      </TextField>
+
       <TextField
         fullWidth
         disabled={isView}
@@ -17,7 +38,6 @@ export default function LoanDeciderAddEditBankStatement({ formik, isView }) {
           !!formik.touched.bankStatement?.averageInflowMin &&
           formik.errors.bankStatement?.averageInflowMin
         }
-        type="number"
       />
 
       <TextField
@@ -33,7 +53,6 @@ export default function LoanDeciderAddEditBankStatement({ formik, isView }) {
           !!formik.touched.bankStatement?.averageInflowMax &&
           formik.errors.bankStatement?.averageInflowMax
         }
-        type="number"
       />
 
       <TextField
@@ -70,12 +89,11 @@ export default function LoanDeciderAddEditBankStatement({ formik, isView }) {
           !!formik.touched.bankStatement?.minGamblingRate &&
           formik.errors.bankStatement?.minGamblingRate
         }
-        type="number"
       />
       <TextField
         fullWidth
         disabled={isView}
-        label="Last Day Of Credit"
+        label="Last Date Of Credit"
         {...formik.getFieldProps("bankStatement.lastIntervalOfCredit")}
         error={
           !!formik.touched.bankStatement?.lastIntervalOfCredit &&
@@ -85,7 +103,6 @@ export default function LoanDeciderAddEditBankStatement({ formik, isView }) {
           !!formik.touched.bankStatement?.lastIntervalOfCredit &&
           formik.errors.bankStatement?.lastIntervalOfCredit
         }
-        type="number"
       />
       <TextField
         fullWidth
@@ -100,7 +117,6 @@ export default function LoanDeciderAddEditBankStatement({ formik, isView }) {
           !!formik.touched.bankStatement?.miniNoOfSalaryPayment &&
           formik.errors.bankStatement?.miniNoOfSalaryPayment
         }
-        type="number"
       />
       <TextField
         fullWidth
@@ -115,7 +131,6 @@ export default function LoanDeciderAddEditBankStatement({ formik, isView }) {
           !!formik.touched.bankStatement?.salaryEarnerDSR &&
           formik.errors.bankStatement?.salaryEarnerDSR
         }
-        type="number"
       />
       <TextField
         fullWidth
@@ -130,7 +145,6 @@ export default function LoanDeciderAddEditBankStatement({ formik, isView }) {
           !!formik.touched.bankStatement?.nonSalaryEarnerDSR &&
           formik.errors.bankStatement?.nonSalaryEarnerDSR
         }
-        type="number"
       />
       <TextField
         fullWidth

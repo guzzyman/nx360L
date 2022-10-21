@@ -60,9 +60,9 @@ function EDRList(props) {
         q: "",
         fromDate: dfn.format(
           activeTab ? dfn.subDays(new Date(), 2) : new Date(),
-          DateConfig.HYPHEN_MM_dd_yyyy
+          DateConfig.FORMAT
         ),
-        toDate: dfn.format(new Date(), DateConfig.HYPHEN_MM_dd_yyyy),
+        toDate: dfn.format(new Date(), DateConfig.FORMAT),
         ...TABLE_PAGINATION_DEFAULT,
         ...defaultSearchParams,
       }),
@@ -89,7 +89,7 @@ function EDRList(props) {
     offset,
     limit,
     locale: DateConfig.LOCALE,
-    dateFormat: DateConfig.HYPHEN_MM_dd_yyyy,
+    dateFormat: DateConfig.FORMAT,
     fromDate,
     toDate:
       toDateInstance.getTime() < fromDateInstance.getTime() ? fromDate : toDate,
@@ -228,10 +228,7 @@ function EDRList(props) {
                 disableFuture
                 onChange={(newValue) => {
                   handleSetSearchParams({
-                    fromDate: dfn.format(
-                      newValue,
-                      DateConfig.HYPHEN_MM_dd_yyyy
-                    ),
+                    fromDate: dfn.format(newValue, DateConfig.FORMAT),
                   });
                 }}
                 renderInput={(params) => <TextField size="small" {...params} />}
@@ -243,7 +240,7 @@ function EDRList(props) {
                 value={toDateInstance}
                 onChange={(newValue) => {
                   handleSetSearchParams({
-                    toDate: dfn.format(newValue, DateConfig.HYPHEN_MM_dd_yyyy),
+                    toDate: dfn.format(newValue, DateConfig.FORMAT),
                   });
                 }}
                 renderInput={(params) => <TextField size="small" {...params} />}

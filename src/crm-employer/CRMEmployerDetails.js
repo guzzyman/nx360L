@@ -30,7 +30,6 @@ import DynamicTable from "common/DynamicTable";
 import useTable from "hooks/useTable";
 import AuthUserUIPermissionRestrictor from "common/AuthUserUIPermissionRestrictor";
 import EmployerDetailDeductionReport from "employer-detail-deduction-report/EmployerDetailDeductionReport";
-import CRMEmployerDSRConfigList from "./CRMEmployerDSRConfigList";
 
 function CRMEmployerDetails(props) {
   const { id } = useParams();
@@ -300,15 +299,6 @@ function CRMEmployerDetails(props) {
         {
           name: "EDR REPORTS",
           content: <EmployerDetailDeductionReport {...{ employerId: id }} />,
-        },
-        {
-          name: "DSR Config",
-          content: (
-            <CRMEmployerDSRConfigList
-              employerId={id}
-              businessId={data?.businessId}
-            />
-          ),
         },
       ]}
     />

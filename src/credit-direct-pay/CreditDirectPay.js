@@ -52,9 +52,6 @@ function CreditDirectPay(props) {
   const [generateCdlPayLinkMuation, generateCdlPayLinkMuationResult] =
     cdlPayPublicApi.useGenerateCdlPayLinkMutation();
 
-  const [cdlPayLoanDecideMutation, cdlPayLoanDecideMutationResult] =
-    cdlPayPublicApi.useCdlPayLoanDecideMutation();
-
   const cdlPayDetailsQueryResult = cdlPayPublicApi.useGetCdlPayDetailsQuery(
     payRef,
     {
@@ -94,17 +91,11 @@ function CreditDirectPay(props) {
           data?.loanInfo?.loanInfo?.repaymentSchedule?.periods?.[1]
             ?.totalDueForPeriod
         ).value,
-        isExternalService: data?.loanInfo?.loanInfo?.isExternalService,
         isMakeDownPayment:
           data?.loanInfo?.loanInfo?.isExternalService &&
           !data?.loanInfo?.loanInfo?.externalDownPaymentDate &&
           !data?.loanInfo?.loanInfo?.externalDownPaymentUserId,
-        isExternalServiceDecide:
-          data?.loanInfo?.loanInfo?.isExternalService &&
-          data?.loanInfo?.loanInfo?.timeline?.externalDownPaymentDate &&
-          data?.loanInfo?.loanInfo?.timeline?.externalDownPaymentByUsername,
         loanId: data?.loanInfo?.loanInfo?.id,
-        isLoanActive: data?.loanInfo?.loanInfo?.status?.id >= 300,
       };
 
   const isDeductionAtSourceOnRepaymentMethods = useMemo(() => {
@@ -117,6 +108,8 @@ function CreditDirectPay(props) {
         CreditDirectPayMethodIdEnum.SOURCE
     );
   }, [data?.loanInfo?.loanInfo?.repaymentMethod]);
+
+  console.log(isDeductionAtSourceOnRepaymentMethods);
 
   const initialStep =
     isLoading ||
@@ -141,8 +134,6 @@ function CreditDirectPay(props) {
     cdlPayTokenizeCardMutation,
     generateCdlPayLinkMuation,
     generateCdlPayLinkMuationResult,
-    cdlPayLoanDecideMutation,
-    cdlPayLoanDecideMutationResult,
     config,
     state,
     setState,

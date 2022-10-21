@@ -22,7 +22,7 @@ export const creditDirectApi = createApi({
 });
 
 export const nimbleX360WrapperApi = createApi({
-  reducerPath: "nimbleX360WrapperApi",
+  reducerPath: "nimblex360wrapper",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_NX360_WRAPPER_API,
     prepareHeaders: (headers, { getState }) => {
@@ -166,7 +166,7 @@ export const nimbleX360Api = createApi({
         try {
           await queryFulfilled;
           dispatch(logoutAction());
-        } catch (error) { }
+        } catch (error) {}
       },
     }),
     getWorkEmailOTP: builder.query({
@@ -237,14 +237,14 @@ export function axiosBaseQuery(baseConfig = {}, http = axios) {
       return {
         error: error.response
           ? {
-            defaultUserMessage: "",
-            status: error.response.status,
-            data: error.response.data,
-          }
+              defaultUserMessage: "",
+              status: error.response.status,
+              data: error.response.data,
+            }
           : {
-            defaultUserMessage: "Something went wrong",
-            data: { defaultUserMessage: "Something went wrong" },
-          },
+              defaultUserMessage: "Something went wrong",
+              data: { defaultUserMessage: "Something went wrong" },
+            },
       };
     }
   }
@@ -255,12 +255,12 @@ export function providesTags(resultsWithIds, tagType, options = {}) {
   const listTag = { type: tagType, id: "LIST" };
   const result = resultsWithIds
     ? [
-      listTag,
-      ...resultsWithIds.map((result) => ({
-        type: tagType,
-        id: selectId(result || {}) || "ITEM",
-      })),
-    ]
+        listTag,
+        ...resultsWithIds.map((result) => ({
+          type: tagType,
+          id: selectId(result || {}) || "ITEM",
+        })),
+      ]
     : [listTag];
 
   return result;

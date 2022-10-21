@@ -89,7 +89,7 @@ function EmployerDetailDeductionReport(props) {
       const data = await downloadEmployerDeductionMutation(params).unwrap();
       enqueueSnackbar("Template Downloaded", { variant: "success" });
     } catch (error) {
-      enqueueSnackbar("Failed to download template", { variant: "error" });
+      enqueueSnackbar("Template Downloaded", { variant: "error" });
     }
   }
 
@@ -178,10 +178,7 @@ export default EmployerDetailDeductionReport;
 const columns = [
   {
     Header: "Employee Name",
-    accessor: (row) =>
-      `${row.clientInformation?.firstname || ""} ${
-        row.clientInformation?.lastname || ""
-      }`,
+    accessor: (row) => `${row.clientInformation?.firstname || ""} ${row.clientInformation?.lastname || ""}`,
   },
   {
     Header: "Deduction Amount",

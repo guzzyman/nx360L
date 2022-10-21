@@ -61,10 +61,10 @@ export default function BankScheduleList() {
           PageSize: limit,
           ...(debouncedQ
             ? {
-              SearchTerm: debouncedQ,
-              // firstName: debouncedQ,
-              // lastName: debouncedQ,
-            }
+                SearchTerm: debouncedQ,
+                // firstName: debouncedQ,
+                // lastName: debouncedQ,
+              }
             : {}),
         }),
         [page, limit, debouncedQ]
@@ -133,17 +133,12 @@ export default function BankScheduleList() {
           pageSize={30}
           RowComponent={ButtonBase}
           rowProps={(row) => ({
-            onClick: () => {
-              if (row.original.status === "pending") {
-                enqueueSnackbar("Bank Schedule is undergoing processing...", { variant: "info" })
-              } else {
-                navigate(
-                  generatePath(RouteEnum.BANK_SCHEDULE_DETAILS, {
-                    id: row.original.id,
-                  })
-                )
-              }
-            },
+            onClick: () =>
+              navigate(
+                generatePath(RouteEnum.BANK_SCHEDULE_DETAILS, {
+                  id: row.original.id,
+                })
+              ),
           })}
         />
       </Paper>
@@ -177,13 +172,10 @@ const columns = [
   //   Header: "Employer",
   //   accessor: "employerName",
   // },
+
   {
     Header: "Status",
     accessor: "status",
-  },
-  {
-    Header: "State",
-    accessor: "stateName",
   },
   {
     Header: "Bank Schedule Date",

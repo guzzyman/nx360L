@@ -6,6 +6,10 @@ resources:
 variables:
 - name: tag
   value: $(Build.BuildId)
+- name: ACR_REGISTRY
+  value: cdlazrfinacr.azurecr.io 
+- name: ACR_REPOSITORY
+  value: app
 
 stages:
 - stage: Build
@@ -36,7 +40,7 @@ stages:
         repository: 'app'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
+        tags: '$(Build.BuildId)'
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Pipeline.Workspace)/s/kubernetes'
@@ -49,7 +53,7 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy fineract frontend to AKS
-    environment: 'CDL-AZR-FINAPPUAT_ENV.application'  
+    environment: 'CDL-AZR-FINAPP.application'  
     pool:
       vmImage: ubuntu-latest
     strategy:
@@ -65,15 +69,22 @@ stages:
           # - task: KubectlInstaller@0
           #   inputs:
           #     kubectlVersion: 'latest'
-          # - script: |
-          #     kubectl create secret generic  fineract-ui-secret --from-file=$(Pipeline.Workspace)/manifests/certs/crt.pem  --from-file=$(Pipeline.Workspace)/manifests/certs/key.pem  --from-file=$(Pipeline.Workspace)/manifests/default.conf.template
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |
+                # Write your commands here
+                
+                echo $ACR_REGISTRY
+                echo $ACR_REPOSITORY
+                echo $(Build.BuildId)
               
           #   displayName: 'Create fineract ui secret'
           #   workingDirectory: $(Pipeline.Workspace)/s/
           - task: KubernetesManifest@0
             inputs:
               action: 'deploy'
-              kubernetesServiceConnection: 'CDL-AZR-FINAPPUAT_ENV-CDL_AZR_FINAPPUAT-application-1666112870047'
+              kubernetesServiceConnection: 'CDL-AZR-FINAPP-CDL-AZR-FINAPP-application-1665737720754'
               namespace: 'application'
               manifests: '$(Pipeline.Workspace)/manifests/frontend.yaml'
-              containers: '$(ACR_REGISTRY)/$(ACR_REPOSITORY):$(tag)'
+              containers: '$(ACR_REGISTRY)/$(ACR_REPOSITORY):$(Build.BuildId)'

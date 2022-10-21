@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useMemo } from "react";
 import { Button, Icon, Paper, ButtonBase } from "@mui/material";
-import { TABLE_PAGINATION_DEFAULT } from "common/Constants";
+import {
+  TABLE_PAGINATION_DEFAULT,
+} from "common/Constants";
 import PageHeader from "common/PageHeader";
 import { useSearchParams } from "react-router-dom";
 import usePaginationSearchParamsTable from "hooks/usePaginationSearchParamsTable";
@@ -28,6 +30,7 @@ export default function LoanDeciderList() {
 
   const { name, offset, limit } = extractedSearchParams;
 
+
   const [debouncedQ] = useDebouncedState(name, {
     wait: 1000,
     enableReInitialize: true,
@@ -41,10 +44,10 @@ export default function LoanDeciderList() {
           PageSize: limit,
           ...(debouncedQ
             ? {
-                SearchTerm: debouncedQ,
-                // firstName: debouncedQ,
-                // lastName: debouncedQ,
-              }
+              SearchTerm: debouncedQ,
+              // firstName: debouncedQ,
+              // lastName: debouncedQ,
+            }
             : {}),
         }),
         [page, limit, debouncedQ]
@@ -61,6 +64,7 @@ export default function LoanDeciderList() {
   useEffect(() => {
     setPage(tableInstance.state.pageIndex);
   }, [tableInstance.state.pageIndex, page]);
+
 
   return (
     <>
@@ -100,9 +104,9 @@ export default function LoanDeciderList() {
           RowComponent={ButtonBase}
           rowProps={(row) => ({
             onClick: () => {
-              setLoanDeciderInstance(row.original);
-              setOpenAddLoanDecider(true);
-            },
+              setLoanDeciderInstance(row.original)
+              setOpenAddLoanDecider(true)
+            }
           })}
         />
       </Paper>
@@ -118,33 +122,49 @@ export default function LoanDeciderList() {
   );
 }
 
+
+
 const columns = [
+
   {
     Header: "Product ID",
     accessor: "productId",
   },
   {
     Header: "Product Name",
-    accessor: "productname",
+    accessor: "productName",
   },
 
   {
     Header: "Bank Statement Analysis",
-    accessor: (row) => (row?.bankStatement ? "True" : "False"),
+    accessor: (row) =>
+      row?.bankStatement
+        ? "True"
+        : "False",
   },
 
   {
     Header: "Credit Analysis",
-    accessor: (row) => (row?.creditReport ? "True" : "False"),
+    accessor: (row) =>
+      row?.creditReport
+        ? "True"
+        : "False",
   },
 
   {
     Header: "Remita Analysis",
-    accessor: (row) => (row?.remit ? "True" : "False"),
+    accessor: (row) =>
+      row?.remit
+        ? "True"
+        : "False",
   },
 
   {
     Header: "Bank Schedule Analysis",
-    accessor: (row) => (row?.bankSchedule ? "True" : "False"),
+    accessor: (row) =>
+      row?.bankSchedule
+        ? "True"
+        : "False",
   },
+
 ];

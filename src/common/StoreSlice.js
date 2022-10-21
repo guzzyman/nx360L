@@ -99,8 +99,5 @@ export const {
 export default slice;
 
 export function getGlobalSliceStorageState({ authUser }) {
-  if (process.env.NODE_ENV !== "production") {
-    return { authUser };
-  }
-  return {};
+  return { authUser };
 }

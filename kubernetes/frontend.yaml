@@ -98,7 +98,7 @@ spec:
         - name: fineract-ui
           securityContext:
             {}
-          image: "cdlazrfinacr.azurecr.io/app:v3"
+          image: "cdlazrfinacr.azurecr.io/app:v4"
           imagePullPolicy: Always
           volumeMounts:
           - name: secretmount
@@ -121,13 +121,11 @@ spec:
             - name: "FINERACT_BASE_URL"
               value: "/fineract-provider/api/v1"
             - name: "FINERACT_DOMAIN"
-              value: "testnx360.creditdirect.ng"
+              value: "nx360.creditdirect.ng"
             - name: "FINERACT_PROXY_URL"
               value: "https://backend-fineract-rest:8443"
             - name: "REACT_APP_API_URL"
-              value: "https://testnx360.creditdirect.ng/fineract-provider/api/v1"
-            - name: REACT_CDL_API_URL
-              value: https://loansapibeta.creditdirect.ng/api/v1
+              value: "https://nx360.creditdirect.ng/fineract-provider/api/v1"
 
                      
           ports:
@@ -187,8 +185,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: frontend-fineract-ui
-  minReplicas: 1
-  maxReplicas: 1
+  minReplicas: 5
+  maxReplicas: 10
   metrics:
     - type: Resource
       resource:
@@ -219,10 +217,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - "testnx360.creditdirect.ng"
+        - "nx360.creditdirect.ng"
       secretName: fineract-tls
   rules:
-    - host: "testnx360.creditdirect.ng"
+    - host: "nx360.creditdirect.ng"
       http:
         paths:
           - path: /

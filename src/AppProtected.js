@@ -34,23 +34,12 @@ function AppProtected(props) {
     const idleTimer = new IdleTimer({
       timeout: parseInt(process.env.REACT_APP_SESSION_TIMEOUT) * 60 * 1000,
       onTimeout: logout,
-      // onLoadTimeout: logout,
+      onLoadTimeout: logout
     });
     return () => {
       idleTimer.cleanUp();
     };
   }, [logoutMutation]);
-
-  useEffect(() => {
-    function closeIt(e) {
-      e.preventDefault();
-      return (e.returnValue = "Are you sure you want to exit?");
-    }
-    window.addEventListener("beforeunload", closeIt);
-    return () => {
-      window.removeEventListener("beforeunload", closeIt);
-    };
-  }, []);
 
   function routeUIRestrictorFilter(routes) {
     return routes?.reduce((acc, curr) => {
@@ -492,20 +481,6 @@ const ROUTES = configureRoutes([
           {
             path: RouteEnum.ADMINISTRATION_PRODUCTS_PRODUCT_MIX_EDIT,
             element: lazy(() => import("product-mix/ProductMixCreateEdit")),
-          },
-        ],
-      },
-      {
-        path: RouteEnum.ADMINISTRATION_PRODUCTS_USSD_PREQUALIFICATION,
-        element: lazy(() => import("ussdPrequalification/UssdPrequalification")),
-        children: [
-          {
-            index: true,
-            element: lazy(() => import("ussdPrequalification/UssdPrequalificationList")),
-          },
-          {
-            path: RouteEnum.ADMINISTRATION_PRODUCTS_USSD_PREQUALIFICATION_HISTORY,
-            element: lazy(() => import("ussdPrequalification/UssdPrequalificationHistory")),
           },
         ],
       },
@@ -962,9 +937,5 @@ const ROUTES = configureRoutes([
         element: lazy(() => import("./bank-schedule/BankScheduleDetails")),
       },
     ],
-  },
-  {
-    path: RouteEnum.DISBURSEMENTS.concat("/*"),
-    element: lazy(() => import("disbursement/Disbursement")),
   },
 ]);

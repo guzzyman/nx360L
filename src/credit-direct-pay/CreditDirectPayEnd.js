@@ -20,8 +20,7 @@ function CreditDirectPayEnd(props) {
           // variant="body2"
           className="mb-4 text-center text-success-main"
         >
-          {state?.message ||
-            cdlPayTokenizeCardMutationResult?.data?.defaultUserMessage}
+          {cdlPayTokenizeCardMutationResult?.data?.defaultUserMessage}
         </Typography>
         <div className="grid md:grid-cols-2 gap-4 mb-4">
           {[

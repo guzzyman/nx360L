@@ -1,51 +1,33 @@
-import { MenuItem, TextField, Typography } from "@mui/material";
+import { MenuItem, TextField } from "@mui/material";
 import React from "react";
+import { getTextFieldFormikProps } from "common/Utils";
+import { nimbleX360CRMLoanProductApi } from "loan-product/LoanProductStoreQuerySlice";
 
-export default function LoanDeciderAddEditCreditReportAnalysis({
-  formik,
-  isView,
-}) {
+export default function LoanDeciderAddEditCreditReportAnalysis({ formik }) {
+  const loanProductQuery =
+    nimbleX360CRMLoanProductApi.useGetLoanProductsQuery();
+
   return (
-    <div className="grid grid-cols-1 gap-4 ">
-      <div className="flex justify-between">
-        <Typography>Maximum days in arrears:</Typography>
-        <TextField
-          type={"number"}
-          disabled={isView}
-          {...formik.getFieldProps("creditReport.maximumDaysInArrears")}
-          error={
-            !!formik.touched.creditReport?.maximumDaysInArrears &&
-            !!formik.errors.creditReport?.maximumDaysInArrears
-          }
-          helperText={
-            !!formik.touched.creditReport?.maximumDaysInArrears &&
-            formik.errors.creditReport?.maximumDaysInArrears
-          }
-        />
-      </div>
-
-      <div className="flex justify-between">
-        <Typography>Maximum number of accounts in arrears:</Typography>
-        <TextField
-          type={"number"}
-          disabled={isView}
-          {...formik.getFieldProps("creditReport.maximumAccountsInArrears")}
-          error={
-            !!formik.touched.creditReport?.maximumAccountsInArrears &&
-            !!formik.errors.creditReport?.maximumAccountsInArrears
-          }
-          helperText={
-            !!formik.touched.creditReport?.maximumAccountsInArrears &&
-            formik.errors.creditReport?.maximumAccountsInArrears
-          }
-        />
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+      <TextField
+        fullWidth
+        label="Product Name"
+        className="col-span-2"
+        select
+        {...getTextFieldFormikProps(formik, "productId")}
+      >
+        {loanProductQuery?.data &&
+          loanProductQuery?.data?.map((option) => (
+            <MenuItem key={option.id} value={option.id}>
+              {option.name}
+            </MenuItem>
+          ))}
+      </TextField>
 
       <TextField
         fullWidth
         label="Allow Null"
         select
-        disabled={isView}
         {...formik.getFieldProps("bankStatement.allowNull")}
         error={
           !!formik.touched.bankStatement?.allowNull &&

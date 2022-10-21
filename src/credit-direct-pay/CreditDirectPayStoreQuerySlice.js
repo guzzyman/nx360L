@@ -68,16 +68,5 @@ export const cdlPayPublicApi = publicApi.injectEndpoints({
       invalidatesTags: (_, error) =>
         error ? [] : [{ type: RtkqTagEnum.CDL_PAY_DETAILS }],
     }),
-    cdlPayLoanDecide: builder.mutation({
-      query: ({ loanId, ...data }) => ({
-        url: `/external/loan/${loanId}/decide`,
-        method: "post",
-        data,
-        // headers: {
-        //   Authorization: "Basic ZXh0ZXJuYWxhcGk6ZXh0ZXJuYWxhcGk=",
-        // },
-      }),
-      // invalidatesTags: (_, error) => [{ type: RtkqTagEnum.CDL_PAY_DETAILS }],
-    }),
   }),
 });

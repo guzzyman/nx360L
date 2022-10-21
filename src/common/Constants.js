@@ -144,10 +144,6 @@ export const RouteEnum = {
   ADMINISTRATION_LOAN_PRODUCT_ADD: "/products/loans/add",
   ADMINISTRATION_LOAN_PRODUCT_EDIT: "/products/loans/edit/:id",
   ADMINISTRATION_PRODUCTS_LOANS_DETAILS: "/products/loans/:id",
-  ADMINISTRATION_PRODUCTS_USSD_PREQUALIFICATION:
-    "/products/ussd-prequalification",
-  ADMINISTRATION_PRODUCTS_USSD_PREQUALIFICATION_HISTORY:
-    "/products/ussd-prequalification/:id",
   FIXED_DEPOSIT_PRODUCT: "/products/fixed-deposits",
   FIXED_DEPOSIT_PRODUCT_ADD: "/products/fixed-deposits/add",
   FIXED_DEPOSIT_PRODUCT_EDIT: "/products/fixed-deposits/edit/:id",
@@ -235,12 +231,6 @@ export const RouteEnum = {
   CRM_LEADS_LOAN_DETAILS_PENDING_VALIDATION: "/crm/clients/:id/loan/:loanId/x",
   BANK_SCHEDULE: "/bank-schedule",
   BANK_SCHEDULE_DETAILS: "/bank-schedule/:id",
-
-  DISBURSEMENTS: "/disbursements",
-  DISBURSEMENTS_DETAILS: "/disbursements/:id",
-  REPAYMENTS: "/repayments",
-  MERCHANTS: "/merchants",
-  EXCEPTIONS: "/exceptions",
 };
 
 export const RtkqTagEnum = {
@@ -304,10 +294,6 @@ export const RtkqTagEnum = {
   UNDERWRITING: "UNDERWRITING",
   LOAN_DECIDER: "LOAN_DECIDER",
   EDR_REPORT: "EDR_REPORT",
-  DSR_CONFIG: "DSR_CONFIG",
-  USSD_PREQUALIFICATION: "USSD_PREQUALIFICATION",
-  RECONCILIATION_DISBURSEMENT: "RECONCILIATION_DISBURSEMENT",
-  LOAN_RECONCILIATION_DISBURSEMENT: "LOAN_RECONCILIATION_DISBURSEMENT",
 };
 
 export const dateLocaleFormat = {
@@ -337,7 +323,7 @@ export const DateConfig = {
   FORMAT_JOURNALENTRIES: "dd MMMM yyyy",
   FORMAT_REPORTS: "yyyy-MM-dd",
   HYPHEN_dd_MM_yyyy: "dd-MM-yyyy",
-  HYPHEN_MM_dd_yyyy: "MM-dd-yyyy",
+  HYPHEN_MM_dd_yyyy: "MM-ddd-yyyy",
   SPACE_dd_MM_yyyy: "dd MM yyyy",
 };
 

@@ -127,46 +127,5 @@ export const nimbleX360CRMEmployerApi = nimbleX360Api.injectEndpoints({
         { type: RtkqTagEnum.EDR_NOTE },
       ],
     }),
-    getEmployerDSRConfigs: builder.query({
-      query: ({ businessId, ...params }) => ({
-        url: `/datatables/DSR_CONFIG/${businessId}`,
-        params,
-      }),
-      providesTags: (id) => [{ type: RtkqTagEnum.DSR_CONFIG }],
-    }),
-    getEmployerDSRConfig: builder.query({
-      query: ({ businessId, id, ...params }) => ({
-        url: `/datatables/DSR_CONFIG/${businessId}/${id}`,
-        params,
-      }),
-      providesTags: (id) => [{ type: RtkqTagEnum.DSR_CONFIG }],
-    }),
-    addEmployerDSRConfig: builder.mutation({
-      query: ({ businessId, params, ...data }) => ({
-        url: `/datatables/DSR_CONFIG/${businessId}`,
-        data,
-        params: params,
-        method: "POST",
-      }),
-      invalidatesTags: () => [{ type: RtkqTagEnum.DSR_CONFIG }],
-    }),
-    editEmployerDSRConfig: builder.mutation({
-      query: ({ businessId, id, params, ...data }) => ({
-        url: `/datatables/DSR_CONFIG/${businessId}/${id}`,
-        data,
-        params: params,
-        method: "PUT",
-      }),
-      invalidatesTags: () => [{ type: RtkqTagEnum.DSR_CONFIG }],
-    }),
-    deleteEmployerDSRConfig: builder.mutation({
-      query: ({ businessId, id, params, ...data }) => ({
-        url: `/datatables/DSR_CONFIG/${businessId}/${id}`,
-        data,
-        params: params,
-        method: "DELETE",
-      }),
-      invalidatesTags: () => [{ type: RtkqTagEnum.DSR_CONFIG }],
-    }),
   }),
 });

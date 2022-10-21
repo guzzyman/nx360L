@@ -10,7 +10,6 @@ function CreditDirectPayRedirectButtons({
   urlQueryParams,
   isInline,
   sendEvent,
-  state,
 }) {
   const countdownDate = useMemo(
     () => dfn.addSeconds(new Date(), parseInt(urlQueryParams.timeout) || 10),
@@ -29,7 +28,7 @@ function CreditDirectPayRedirectButtons({
 
   function returnToMerchantSite(e) {
     e?.preventDefault?.();
-    sendEvent(CreditDirectPayEventEnum.SUCCESS, { message: state?.message });
+    sendEvent(CreditDirectPayEventEnum.SUCCESS, {});
   }
 
   return (
